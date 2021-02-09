@@ -65,7 +65,7 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
         self.curr_nn_inds = self.curr_nn_inds[:self.n_neighbors]
 
 
-class HNSWClassifier:
+class HNSWClassifier(BaseEstimator, ClassifierMixin):
     def __init__(self,
                  n_neighbors=1,
                  mac_neighbors=None,
@@ -74,7 +74,7 @@ class HNSWClassifier:
                  M=5,
                  ef_construction=100,
                  ef_Search=50,
-                 sakoe_chiba_radius=1,
+                 metric_params={},
                  random_seed=1992,
                  num_threads=40):
 
@@ -84,117 +84,84 @@ class HNSWClassifier:
         self.max_elements = max_elements
         self.M = M
         self.ef_construction = ef_construction
-        self.ef_S = ef_Search
-        self.sakoe_chiba_radius = sakoe_chiba_radius
-        self.seed = random_seed
+        self.ef_Search = ef_Search
+        self.metric_params = metric_params
+        self.random_seed = random_seed
         self.num_threads = num_threads
-
-    def get_params(self, deep=True):
-        return {
-            "n_neighbors": self.n_neighbors,
-            "mac_neighbors": self.mac_neighbors,
-            "space": self.space,
-            "max_elements": self.max_elements,
-            "M": self.M,
-            "ef_construction": self.ef_construction,
-            "ef_Search": self.ef_S,
-            "sakoe_chiba_radius": self.sakoe_chiba_radius,
-            "random_seed": self.seed,
-            "num_threads": self.num_threads
-        }
-
-    def set_params(self, **parameters):
-        for parameter, value in parameters.items():
-            setattr(self, parameter, value)
-        return self
 
     def fit(self, X_train=None, y_train=None):
         self.X_train = X_train.astype('float32')
-        self.dimesion = self.X_train.shape[1]
+        self.dimension = self.X_train.shape[1]
         self.num_elements = self.X_train.shape[0]
         self.y_train = y_train
 
-        self.model = hnswlib.Index(space=self.space, dim=self.dimesion)
+        self.model = hnswlib.Index(space=self.space, dim=self.dimension)
         self.model.init_index(max_elements=self.num_elements,
                               ef_construction=self.ef_construction, M=self.M)
-        self.model.set_ef(self.ef_S)
+        self.model.set_ef(self.ef_Search)
         self.model.add_items(self.X_train, np.arange(self.num_elements))
         return self
 
     def predict(self, X_test):
-        np.random.seed(self.seed)
+        np.random.seed(self.random_seed)
         self.X_test = X_test.astype("float32")
         if self.mac_neighbors is None:
-            return self.predict_euc()
-        return self.predict_dtw()
+            return self.predict_mac()
+        return self.predict_macfac()
 
-    def predict_dtw(self):
+    def predict_mac(self):
+        self.nbrs_all_query, distances = self.model.knn_query(self.X_test,
+                                                              k=self.n_neighbors)
+        y_hat = np.empty(self.X_test.shape[0])
+        for i, nbrs in enumerate(self.nbrs_all_query):
+            labels = list(self.y_train[nbrs])
+            y_hat[i] = max(set(labels), key=labels.count)
+        return y_hat
+
+    def predict_macfac(self):
         self.nbrs_all_query, distances = self.model.knn_query(self.X_test,
                                                               k=self.mac_neighbors)
         self.nn_dtw()
-        y_hat = []
-        for nbrs in self.nbrs_all_query:
+        y_hat = np.empty(self.X_test.shape[0])
+        for i, nbrs in enumerate(self.nbrs_all_query):
             nn_classes = [self.y_train[nn] for nn in nbrs]
-            y_hat.append(most_frequent(nn_classes))
+            y_hat[i] = max(set(nn_classes), key=nn_classes.count)
         return y_hat
 
     def nn_dtw(self):
         dtw_nbrs_all_query = []
         for te_idx, nbrs in enumerate(self.nbrs_all_query):
-            costs = []
-            for nn in nbrs:
+            costs = np.empty(len(nbrs))
+            for i, nn in enumerate(nbrs):
                 tr_v = self.X_train[nn]
                 te_v = self.X_test[te_idx]
                 cost = dtw(tr_v,
                            te_v,
-                           global_constraint="sakoe_chiba",
-                           sakoe_chiba_radius=self.sakoe_chiba_radius)
-                costs.append(cost)
-            sorted_cost_inds = np.argsort(np.array(costs))
+                           **self.metric_params)
+                costs[i] = cost
+            sorted_cost_inds = np.argsort(costs)
             nbrs = np.asarray(nbrs)[sorted_cost_inds]
             nbrs = nbrs[:self.n_neighbors]
             dtw_nbrs_all_query.append(nbrs)
         self.nbrs_all_query = dtw_nbrs_all_query
 
-    def predict_euc(self):
-        self.nbrs_all_query, distances = self.model.knn_query(self.X_test,
-                                                              k=self.n_neighbors)
-        y_hat = []
-        for nbrs in self.nbrs_all_query:
-            labels = self.y_train[nbrs]
-            pred = most_frequent(labels)
-            y_hat.append(pred)
-        return y_hat
 
-
-class kNNClassifier:
-    def __init__(self, n_neighbours=5, mac_neighbours=None, weights="uniform",
+class kNNClassifier(BaseEstimator, ClassifierMixin):
+    def __init__(self, n_neighbours=5, mac_neighbours=None, weights="uniform", mac_metric="euclidean",
                  metric_params={}, n_jobs=-1):
         self.n_neighbours = n_neighbours
         self.mac_neighbours = mac_neighbours
+        self.mac_metric = mac_metric
         self.weights = weights
         self.metric_params = metric_params
         self.n_jobs = n_jobs
 
-    def get_params(self, deep=True):
-        return {"n_neighbours": self.n_neighbours,
-                "mac_neighbours": self.mac_neighbours,
-                "weights": self.weights,
-                "metric_params": self.metric_params,
-                "n_jobs": self.n_jobs
-                }
-
-    def set_params(self, **parameters):
-        for parameter, value in parameters.items():
-            setattr(self, parameter, value)
-        return self
-
     def fit(self, X_train, y_train):
-        self.X_train = X_train
+        self.X_train = X_train.astype(np.float32)
         self.y_train = y_train
 
         self.model = KNeighborsTimeSeriesClassifier(n_neighbors=self.n_neighbours,
-                                                    metric="euclidean",
+                                                    metric=self.mac_metric,
                                                     weights=self.weights,
                                                     n_jobs=self.n_jobs).fit(self.X_train, self.y_train)
         return self
@@ -203,7 +170,7 @@ class kNNClassifier:
         if self.mac_neighbours is None:
             return self.model.predict(X_test)
         else:
-            y_hat = []
+            y_hat = np.empty(X_test.shape[0])
             k_neighbors = self.model.kneighbors(X_test,
                                                 n_neighbors=self.mac_neighbours,
                                                 return_distance=False)
@@ -216,5 +183,5 @@ class kNNClassifier:
                                                             n_jobs=self.n_jobs,
                                                             metric_params=self.metric_params).fit(X_train, y_train)
                 pred = self.model.predict(X_test[idx])
-                y_hat.append(pred)
+                y_hat[idx] = pred
         return y_hat
