@@ -1,5 +1,5 @@
-numpy~=1.19.2
-scikit-learn~=0.23.2
-sortedcollections~=2.1.0
-tslearn~=0.5.0.5
-tqdm~=4.56.0
+numpy>=1.19.2
+scikit-learn>=0.23.2
+sortedcollections>=2.1.0
+tqdm>=4.56.0
+tslearn>=0.5.0.5

@@ -173,7 +173,7 @@ class NSW(BaseEstimator, ClassifierMixin):
         except:
             X_test = np.asarray(X_test, dtype="float32")
 
-        y_hat = []
+        y_hat = np.empty(X_test.shape[0])
 
         for i in tqdm(range(X_test.shape[0])):
             q_node = Node(0, X_test[i], None)
@@ -184,15 +184,15 @@ class NSW(BaseEstimator, ClassifierMixin):
 
             label = max(set(labels), key=labels.count)
 
-            y_hat.append(label)
+            y_hat[i] = label
 
-        return np.asarray(y_hat)
+        return y_hat
 
     def kneighbors(self, X_test=None, indices=[], dist_mat=None, return_prediction=False):
         X_test.astype("float32")
         self.dmat = dist_mat
         all_nns = []
-        preds = []
+        y_hat = np.empty(X_test.shape[0])
         counts = []
 
         for i in tqdm(range(X_test.shape[0])):
@@ -202,8 +202,8 @@ class NSW(BaseEstimator, ClassifierMixin):
             neighbors = list(neighbors.keys())[:self.k]
             if return_prediction:
                 lst = self.y_train[neighbors]
-                preds.append(max(set(lst), key=lst.count))
+                y_hat[i] = max(set(lst), key=lst.count)
             all_nns.append(neighbors)
         if return_prediction:
-            return all_nns, preds, counts
+            return all_nns, y_hat, counts
         return all_nns
