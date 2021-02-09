@@ -2,7 +2,7 @@ import numpy as np
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split, GridSearchCV
 
-from models import HNSWClassifier
+from mlots import HNSWClassifier
 
 data = np.load("../input/plarge300.npy", allow_pickle=True).item()
 X_train, X_test, y_train, y_test = train_test_split(data["X"], data["y"], test_size=0.5, random_state=1992)
