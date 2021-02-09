@@ -147,10 +147,11 @@ class HNSWClassifier(BaseEstimator, ClassifierMixin):
 
 
 class kNNClassifier(BaseEstimator, ClassifierMixin):
-    def __init__(self, n_neighbours=5, mac_neighbours=None, weights="uniform", mac_metric="euclidean",
+
+    def __init__(self, n_neighbors=5, mac_neighbors=None, weights="uniform", mac_metric="euclidean",
                  metric_params={}, n_jobs=-1):
-        self.n_neighbours = n_neighbours
-        self.mac_neighbours = mac_neighbours
+        self.n_neighbors = n_neighbors
+        self.mac_neighbors = mac_neighbors
         self.mac_metric = mac_metric
         self.weights = weights
         self.metric_params = metric_params
@@ -160,24 +161,24 @@ class kNNClassifier(BaseEstimator, ClassifierMixin):
         self.X_train = X_train.astype(np.float32)
         self.y_train = y_train
 
-        self.model = KNeighborsTimeSeriesClassifier(n_neighbors=self.n_neighbours,
+        self.model = KNeighborsTimeSeriesClassifier(n_neighbors=self.n_neighbors,
                                                     metric=self.mac_metric,
                                                     weights=self.weights,
                                                     n_jobs=self.n_jobs).fit(self.X_train, self.y_train)
         return self
 
     def predict(self, X_test):
-        if self.mac_neighbours is None:
+        if self.mac_neighbors is None:
             return self.model.predict(X_test)
         else:
             y_hat = np.empty(X_test.shape[0])
             k_neighbors = self.model.kneighbors(X_test,
-                                                n_neighbors=self.mac_neighbours,
+                                                n_neighbors=self.mac_neighbors,
                                                 return_distance=False)
             for idx, k in enumerate(k_neighbors):
                 X_train = self.X_train[k]
                 y_train = self.y_train[k]
-                self.model = KNeighborsTimeSeriesClassifier(n_neighbors=self.n_neighbours,
+                self.model = KNeighborsTimeSeriesClassifier(n_neighbors=self.n_neighbors,
                                                             metric="dtw",
                                                             weights=self.weights,
                                                             n_jobs=self.n_jobs,
