@@ -15,7 +15,7 @@ setuptools.setup(
     description="Machine Learning Over Time-Series: A toolkit for time-series analysis",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url='https://github.com/vivekmahato/mlots',
+    url='https://github.com/vivekmahato/mlots/archive/0.0.0a19.tar.gz',
     packages=setuptools.find_packages(),
     install_requires=[
         'tslearn', 'numpy', 'scikit-learn', 'annoy', 'hnswlib', 'sortedcollections',
