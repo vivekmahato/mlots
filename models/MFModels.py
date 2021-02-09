@@ -2,7 +2,8 @@ import annoy
 import hnswlib
 import numpy as np
 from sklearn.base import BaseEstimator, ClassifierMixin
-from tslearn.metrics import dtw
+from sklearn.neighbors import KNeighborsClassifier
+from tslearn.metrics import dtw, lb_keogh
 from tslearn.neighbors import KNeighborsTimeSeriesClassifier
 
 
@@ -165,6 +166,56 @@ class kNNClassifier(BaseEstimator, ClassifierMixin):
                                                     metric=self.mac_metric,
                                                     weights=self.weights,
                                                     n_jobs=self.n_jobs).fit(self.X_train, self.y_train)
+        return self
+
+    def predict(self, X_test):
+        if self.mac_neighbors is None:
+            return self.model.predict(X_test)
+        else:
+            y_hat = np.empty(X_test.shape[0])
+            k_neighbors = self.model.kneighbors(X_test,
+                                                n_neighbors=self.mac_neighbors,
+                                                return_distance=False)
+            for idx, k in enumerate(k_neighbors):
+                X_train = self.X_train[k]
+                y_train = self.y_train[k]
+                self.model = KNeighborsTimeSeriesClassifier(n_neighbors=self.n_neighbors,
+                                                            metric="dtw",
+                                                            weights=self.weights,
+                                                            n_jobs=self.n_jobs,
+                                                            metric_params=self.metric_params).fit(X_train, y_train)
+                pred = self.model.predict(X_test[idx])
+                y_hat[idx] = pred
+        return y_hat
+
+
+class kNNClassifier_CustomDist(BaseEstimator, ClassifierMixin):
+
+    def __init__(self, n_neighbors=5, mac_neighbors=None, weights="uniform", mac_metric="euclidean",
+                 metric_params={}, n_jobs=-1):
+        self.n_neighbors = n_neighbors
+        self.mac_neighbors = mac_neighbors
+        self.mac_metric = mac_metric
+        self.weights = weights
+        self.metric_params = metric_params
+        self.n_jobs = n_jobs
+
+        if self.mac_metric == "lb_keogh":
+            def lbk(ts1, ts2, radius=self.metric_params["radius"]):
+                return lb_keogh(ts1, ts2, radius)
+
+            self.mac_metric = lbk
+            del self.metric_params["radius"]
+
+    def fit(self, X_train, y_train):
+        self.X_train = X_train.astype(np.float32)
+        self.y_train = y_train
+
+        self.model = KNeighborsClassifier(n_neighbors=self.n_neighbors,
+                                          metric=self.mac_metric,
+                                          weights=self.weights,
+                                          algorithm="brute",
+                                          n_jobs=self.n_jobs).fit(self.X_train, self.y_train)
         return self
 
     def predict(self, X_test):
