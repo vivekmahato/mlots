@@ -34,10 +34,39 @@ class NSW(BaseEstimator, ClassifierMixin):
                  f: int = 1,
                  m: int = 1,
                  k: int = 1,
-                 metric: object = "euclidean",
-                 metric_params: dict = {},
+                 metric: str = "euclidean",
+                 metric_params=None,
                  random_seed: int = 1992) -> object:
+        """
+       NAME: Navigable Small Worlds
 
+       This is a class that represents NSW model.
+
+        Parameters
+        ----------
+        f : int (default 1)
+            The maximum number of friends a node can have or connect to.
+        m : int (default 1)
+            Number of iterations or search in the network.
+        k : int (default 1)
+            The number of neighbors to consider for classification.
+        metric: str (default "euclidean")
+            The distance metric/measure to be employed. Can be one from the list: euclidean, dtw, lb_keogh
+        metric_params: dict
+            The parameters of the metric being employed.
+            Example: For metric = "dtw", the metric_params can be:
+                        { "global_restraint" : "sakoe_chiba",
+                          "sakoe_chiba_radius": 1  }
+            See tslearn.metrics for more details.
+        random_seed: int (default 1992)
+            The initial seed to be used by random function.
+
+        Returns
+        -------
+        NSW class with the parameters supplied.
+        """
+        if metric_params is None:
+            metric_params = dict()
         self.seed = random_seed
         self.f = f
         self.m = m
@@ -153,6 +182,22 @@ class NSW(BaseEstimator, ClassifierMixin):
         return self.result, count
 
     def fit(self, X_train, y_train, dist_mat=None):
+        """
+        This is the fit function for NSW model.
+
+        Parameters
+        ----------
+        X_train :   np.array
+                    The train data to be fitted.
+        y_train :   np.array
+                    The true labels of X_train data.
+        dist_mat :  np.array (default None)
+                    [Optional] Pre-computed distance matrix
+
+        Returns
+        -------
+        NSW class with fitted train data.
+        """
         np.random.seed(self.seed)
         try:
             self.X_train = X_train.astype("float32")
@@ -167,7 +212,24 @@ class NSW(BaseEstimator, ClassifierMixin):
         print("Model is fitted with the provided data.")
         return self
 
-    def predict(self, X_test):
+    def predict(self, X_test, dist_mat=None):
+
+        """
+        This is the predict function for NSW model.
+
+        Parameters
+        ----------
+        X_test :    np.array
+                    The test data for the prediction.
+        dist_mat :  np.array (default None)
+                    [Optional] Pre-computed distance matrix
+
+        Returns
+        -------
+        y_hat :     np.array
+                    The predicted labels of the test samples.
+
+        """
         try:
             X_test = X_test.astype("float32")
         except:
@@ -188,22 +250,47 @@ class NSW(BaseEstimator, ClassifierMixin):
 
         return y_hat
 
-    def kneighbors(self, X_test=None, indices=[], dist_mat=None, return_prediction=False):
-        X_test.astype("float32")
+    def kneighbors(self, X_test=None, dist_mat=None, return_prediction=False):
+        """
+        This is the kneighbors function for NSW model. The kneighbors are fetched for the test samples.
+
+        Parameters
+        ----------
+        X_test :    np.array
+                    The test data for the prediction.
+        indices :   list
+                    The indices of the test samples. Relevant if dist_mat is supplied.
+        dist_mat :  np.array (default None)
+                    [Optional] Pre-computed distance matrix
+        return_prediction: bool (default False)
+                    If True, the function returns kneighbors and predictions (nns and y_hat)
+
+        Returns
+        -------
+        nns     :   np.array
+                    The kneighbors of the test samples.
+        y_hat   :   np.array
+                    The predicted labels of the test samples.
+
+        """
+        try:
+            X_test = X_test.astype("float32")
+        except:
+            X_test = np.asarray(X_test, dtype="float32")
         self.dmat = dist_mat
-        all_nns = []
+        nns = np.empty((X_test.shape[0], self.k))
         y_hat = np.empty(X_test.shape[0])
-        counts = []
+        # counts = []
 
         for i in tqdm(range(X_test.shape[0])):
-            q_node = Node(indices[i], X_test[i], None)
-            neighbors, count = self.knn_search(q_node, self.k)
-            counts.append(count)
+            q_node = Node(i, X_test[i], None)
+            neighbors, _ = self.knn_search(q_node, self.k)
+            # counts.append(count)
             neighbors = list(neighbors.keys())[:self.k]
             if return_prediction:
                 lst = self.y_train[neighbors]
                 y_hat[i] = max(set(lst), key=lst.count)
-            all_nns.append(neighbors)
+            nns[i] = np.asarray(neighbors)
         if return_prediction:
-            return all_nns, y_hat, counts
-        return all_nns
+            return nns, y_hat
+        return nns

@@ -41,5 +41,7 @@ acc1 = accuracy_score(y_hat, y_test)
 print("Model accuracy: ", round(acc1, 2))
 acc2 = nsw.score(X_test, y_test)
 print("Model accuracy: ", round(acc2, 2))
+nns = nsw.kneighbors(X_test)
+print(nns.shape)
 # assert acc1 == acc2
 # # %%
