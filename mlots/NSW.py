@@ -52,7 +52,7 @@ class NSW(BaseEstimator, ClassifierMixin):
             The number of neighbors to consider for classification.
         metric: str (default "euclidean")
             The distance metric/measure to be employed. Can be one from the list: euclidean, dtw, lb_keogh
-        metric_params: dict
+        metric_params: dict() (default None)
             The parameters of the metric being employed.
             Example: For metric = "dtw", the metric_params can be:
                         { "global_restraint" : "sakoe_chiba",
@@ -109,8 +109,7 @@ class NSW(BaseEstimator, ClassifierMixin):
         self.corpus[node.index] = node
         return self
 
-    def batch_insert(self, indices=[]):
-
+    def batch_insert(self, indices=None):
         for i in tqdm(list(range(self.X_train.shape[0]))):
             self.nn_insert(indices[i], self.X_train[i], self.y_train[i])
 
@@ -196,7 +195,7 @@ class NSW(BaseEstimator, ClassifierMixin):
 
         Returns
         -------
-        NSW class with fitted train data.
+        NSW class with train data fitted.
         """
         np.random.seed(self.seed)
         try:

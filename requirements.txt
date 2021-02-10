@@ -5,3 +5,4 @@ tqdm>=4.56.0
 tslearn>=0.5.0.5
 hnswlib>=0.5.1
 setuptools>=52.0.0
+annoy>=1.17.0

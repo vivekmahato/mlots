@@ -29,7 +29,7 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
         metric:         str (default "euclidean")
                         The distance metric to be employed for Annoy.
                         Check annoy library for allowed metrics.
-        metric_params:  dict (default None)
+        metric_params:  dict() (default None)
                         The parameters of the metric being employed.
                         Example: For metric = "dtw", the metric_params can be:
                                 { "global_restraint" : "sakoe_chiba",
@@ -68,7 +68,7 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
 
         Returns
         -------
-        AnnoyClassifier class with fitted train data.
+        AnnoyClassifier class with train data fitted.
         """
         self.X_train = X_train
         self.N_feat = X_train.shape[1]
@@ -175,7 +175,7 @@ class HNSWClassifier(BaseEstimator, ClassifierMixin):
                             The value ef of can be anything between k and the size of the dataset.
                             if mac_neighbors = None; k = n_neighbors
                             if mac_neighbors = int;  k = mac_neighbors
-        metric_params   :   dict (default None)
+        metric_params   :   dict() (default None)
                             The parameters of the metric being employed.
                             Example: For metric = "dtw", the metric_params can be:
                                 { "global_restraint" : "sakoe_chiba",
@@ -217,7 +217,7 @@ class HNSWClassifier(BaseEstimator, ClassifierMixin):
 
         Returns
         -------
-        HNSWClassifier class with fitted train data.
+        HNSWClassifier class with train data fitted.
         """
         self.X_train = X_train.astype('float32')
         self.dimension = self.X_train.shape[1]
@@ -314,7 +314,7 @@ class kNNClassifier(BaseEstimator, ClassifierMixin):
         mac_metric      :   str (default "euclidean")
                             The distance metric to be employed for MAC stage.
                             Check tslearn's KNeighborsTimeSeriesClassifier model for allowed metrics.
-        metric_params   :   dict (default None)
+        metric_params   :   dict() (default None)
                             The parameters of the metric being employed for FAC stage.
                             Example: For metric = "dtw", the metric_params can be:
                                 { "global_restraint" : "sakoe_chiba",
@@ -349,7 +349,7 @@ class kNNClassifier(BaseEstimator, ClassifierMixin):
 
         Returns
         -------
-        kNNClassifier class with fitted train data.
+        kNNClassifier class with train data fitted.
         """
         self.X_train = X_train.astype(np.float32)
         self.y_train = y_train
@@ -422,7 +422,7 @@ class kNNClassifier_CustomDist(BaseEstimator, ClassifierMixin):
                                         any allowed distance measures for scikit-learn's KNeighborsClassifier,
                                         or, a callable distance function.
                             If mac_metric = "lb_keogh", provide "radius" parameter for it in metric_params.
-        metric_params   :   dict (default None)
+        metric_params   :   dict() (default None)
                             The parameters of the metric being employed for FAC stage.
                             Example: For metric = "dtw", the metric_params can be:
                                 { "global_restraint" : "sakoe_chiba",
@@ -465,7 +465,7 @@ class kNNClassifier_CustomDist(BaseEstimator, ClassifierMixin):
 
         Returns
         -------
-        kNNClassifier_CustomDist class with fitted train data.
+        kNNClassifier_CustomDist class with train data fitted.
         """
         self.X_train = X_train.astype(np.float32)
         self.y_train = y_train
