@@ -9,12 +9,14 @@ It can be installed as a python package from the PyPI repository.
 Install mlots by running:
 
   ```python
-  pip install mlots```
+  pip install mlots
+  ```
 
 After installation, it can be imported to a python environment to be employed.
 
    ```python
-   import mlots```
+   import mlots
+   ```
 
 ## Contribute
 
