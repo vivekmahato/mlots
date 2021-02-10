@@ -22,8 +22,8 @@ best_score = gscv.best_score_
 print("Best Parameters: ", best_param)
 print("Best Accuracy: ", best_score)
 
-knn = kNNClassifier_CustomDist(**best_param, mac_metric="lb_keogh", metric_params={"radius": 23}, n_jobs=-1).fit(
-    X_train, y_train)
+knn = kNNClassifier_CustomDist(**best_param, mac_metric="lb_keogh", metric_params={"radius": 23}
+                               , n_jobs=-1).fit(X_train, y_train)
 y_hat = knn.predict(X_test)
 acc = accuracy_score(y_test, y_hat)
 print("Model accuracy w/o Mac-Fac: ", round(acc, 2))
@@ -47,10 +47,10 @@ best_score = gscv.best_score_
 print("Best Parameters: ", best_param)
 print("Best Accuracy: ", best_score)
 
-knn = kNNClassifier_CustomDist(**best_param, mac_metric="lb_keogh", metric_params={"global_constraint": "sakoe_chiba",
-                                                                                   "sakoe_chiba_radius": 23,
-                                                                                   "radius": 23}, n_jobs=-1).fit(
-    X_train, y_train)
+knn = kNNClassifier_CustomDist(**best_param, mac_metric="lb_keogh",
+                               metric_params={"global_constraint": "sakoe_chiba",
+                                              "sakoe_chiba_radius": 23,
+                                              "radius": 23}, n_jobs=-1).fit(X_train, y_train)
 y_hat = knn.predict(X_test)
 acc = accuracy_score(y_test, y_hat)
 print("Model accuracy w/ Mac-Fac: ", round(acc, 2))

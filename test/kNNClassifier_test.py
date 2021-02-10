@@ -46,10 +46,10 @@ best_score = gscv.best_score_
 print("Best Parameters: ", best_param)
 print("Best Accuracy: ", best_score)
 
-knn = knn = kNNClassifier(**best_param,
-                          metric_params={"global_constraint": "sakoe_chiba",
-                                         "sakoe_chiba_radius": 23},
-                          n_jobs=-1).fit(X_train, y_train)
+knn = kNNClassifier(**best_param,
+                    metric_params={"global_constraint": "sakoe_chiba",
+                                   "sakoe_chiba_radius": 23},
+                    n_jobs=-1).fit(X_train, y_train)
 y_hat = knn.predict(X_test)
 acc = accuracy_score(y_test, y_hat)
 print("Model accuracy w/ Mac-Fac: ", round(acc, 2))
