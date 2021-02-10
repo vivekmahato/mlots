@@ -30,6 +30,36 @@ class Node:
 
 
 class NSW(BaseEstimator, ClassifierMixin):
+    """
+      NAME: Navigable Small Worlds
+
+      This is a class that represents NSW model.
+
+       Parameters
+       ----------
+       f       :       int (default 1)
+                       The maximum number of friends a node can have or connect to.
+       m       :       int (default 1)
+                       Number of iterations or search in the network.
+       k       :       int (default 1)
+                       The number of neighbors to consider for classification.
+       metric  :       str (default "euclidean")
+                       The distance metric/measure to be employed. Can be one from the list: euclidean, dtw, lb_keogh
+       metric_params:  dict() (default None)
+                       The parameters of the metric being employed.
+                           Example: For metric = "dtw", the metric_params can be:
+                                       {   "global_restraint" : "sakoe_chiba",
+                                           "sakoe_chiba_radius": 1             }
+                       See tslearn.metrics for more details.
+       random_seed:    int (default 1992)
+                       The initial seed to be used by random function.
+
+       Returns
+       -------
+       object  :       self
+                       NSW class with the parameters supplied.
+       """
+
     def __init__(self,
                  f: int = 1,
                  m: int = 1,
@@ -37,34 +67,7 @@ class NSW(BaseEstimator, ClassifierMixin):
                  metric: str = "euclidean",
                  metric_params=None,
                  random_seed: int = 1992) -> object:
-        """
-       NAME: Navigable Small Worlds
 
-       This is a class that represents NSW model.
-
-        Parameters
-        ----------
-        f : int (default 1)
-            The maximum number of friends a node can have or connect to.
-        m : int (default 1)
-            Number of iterations or search in the network.
-        k : int (default 1)
-            The number of neighbors to consider for classification.
-        metric: str (default "euclidean")
-            The distance metric/measure to be employed. Can be one from the list: euclidean, dtw, lb_keogh
-        metric_params: dict() (default None)
-            The parameters of the metric being employed.
-            Example: For metric = "dtw", the metric_params can be:
-                        { "global_restraint" : "sakoe_chiba",
-                          "sakoe_chiba_radius": 1  }
-            See tslearn.metrics for more details.
-        random_seed: int (default 1992)
-            The initial seed to be used by random function.
-
-        Returns
-        -------
-        NSW class with the parameters supplied.
-        """
         if metric_params is None:
             metric_params = dict()
         self.seed = random_seed
@@ -195,7 +198,8 @@ class NSW(BaseEstimator, ClassifierMixin):
 
         Returns
         -------
-        NSW class with train data fitted.
+        object  :   self
+                    NSW class with train data fitted.
         """
         np.random.seed(self.seed)
         try:
