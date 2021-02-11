@@ -9,7 +9,7 @@ with open(os.path.join(ROOT, 'README.md'), encoding="utf-8") as f:
 
 setuptools.setup(
     name='mlots',
-    version='0.0.3.1',
+    version='0.0.4',
     author="Vivek Mahato",
     author_email="vivek.mahato@ucdconnect.ie",
     description="Machine Learning Over Time-Series: A toolkit for time-series analysis",
@@ -23,7 +23,7 @@ setuptools.setup(
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+        "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
 )

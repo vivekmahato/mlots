@@ -69,7 +69,11 @@ class kNNClassifier(BaseEstimator, ClassifierMixin):
                     kNNClassifier class with train data fitted.
 
         """
-        self.X_train = X_train.astype(np.float32)
+        try:
+            self.X_train = X_train.astype("float32")
+        except:
+            self.X_train = np.asarray(X_train, dtype="float32")
+
         self.y_train = y_train
 
         self.model = KNeighborsTimeSeriesClassifier(n_neighbors=self.n_neighbors,
@@ -93,6 +97,11 @@ class kNNClassifier(BaseEstimator, ClassifierMixin):
                     The predicted labels of the test samples.
 
         """
+        try:
+            self.X_test = X_test.astype("float32")
+        except:
+            self.X_test = np.asarray(X_test, dtype="float32")
+
         if self.mac_neighbors is None:
             return self.model.predict(X_test)
 

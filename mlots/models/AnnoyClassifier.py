@@ -71,7 +71,11 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
                     AnnoyClassifier class with train data fitted.
 
         """
-        self.X_train = X_train
+        try:
+            self.X_train = X_train.astype("float32")
+        except:
+            self.X_train = np.asarray(X_train, dtype="float32")
+
         self.N_feat = X_train.shape[1]
         self.N_train = X_train.shape[0]
         self.y_train = y_train
@@ -97,7 +101,11 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
                     The predicted labels of the test samples.
 
         """
-        self.X_test = X_test
+        try:
+            self.X_test = X_test.astype("float32")
+        except:
+            self.X_test = np.asarray(X_test, dtype="float32")
+
         if self.mac_neighbors is None:
             return self.predict_mac()
         return self.predict_macfac()

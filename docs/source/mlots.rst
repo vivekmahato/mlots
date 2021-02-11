@@ -1,48 +1,14 @@
 mlots package
 =============
 
-Submodules
-----------
+Subpackages
+-----------
 
-mlots.AnnoyClassifier module
-----------------------------
+.. toctree::
+   :maxdepth: 4
 
-.. automodule:: mlots.AnnoyClassifier
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-mlots.HNSWClassifier module
----------------------------
-
-.. automodule:: mlots.HNSWClassifier
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-mlots.NSW module
-----------------
-
-.. automodule:: mlots.NSW
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-mlots.kNNClassifier module
---------------------------
-
-.. automodule:: mlots.kNNClassifier
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-mlots.kNNClassifier\_CustomDist module
---------------------------------------
-
-.. automodule:: mlots.kNNClassifier_CustomDist
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   mlots.models
+   mlots.utilities
 
 Module contents
 ---------------

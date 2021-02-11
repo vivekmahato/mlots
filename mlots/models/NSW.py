@@ -282,6 +282,7 @@ class NSW(BaseEstimator, ClassifierMixin):
             X_test = X_test.astype("float32")
         except:
             X_test = np.asarray(X_test, dtype="float32")
+
         self.dmat = dist_mat
         nns = np.empty((X_test.shape[0], self.k))
         y_hat = np.empty(X_test.shape[0])
