@@ -96,7 +96,11 @@ class HNSWClassifier(BaseEstimator, ClassifierMixin):
                     HNSWClassifier class with train data fitted.
 
         """
-        self.X_train = X_train.astype('float32')
+        try:
+            self.X_train = X_train.astype("float32")
+        except:
+            self.X_train = np.asarray(X_train, dtype="float32")
+
         self.dimension = self.X_train.shape[1]
         self.num_elements = self.X_train.shape[0]
         self.y_train = y_train
@@ -125,7 +129,11 @@ class HNSWClassifier(BaseEstimator, ClassifierMixin):
 
         """
         np.random.seed(self.random_seed)
-        self.X_test = X_test.astype("float32")
+        try:
+            self.X_test = X_test.astype("float32")
+        except:
+            self.X_test = np.asarray(X_test, dtype="float32")
+
         if self.mac_neighbors is None:
             return self.predict_mac()
         return self.predict_macfac()

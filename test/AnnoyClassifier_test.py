@@ -7,6 +7,7 @@ from mlots import AnnoyClassifier
 data = np.load("../input/plarge300.npy", allow_pickle=True).item()
 X_train, X_test, y_train, y_test = train_test_split(data["X"], data["y"], test_size=0.5, random_state=1992)
 
+print(X_test.shape, type(X_test))
 param_grid = {
     "n_neighbors": np.arange(1, 11, 2)
 }
