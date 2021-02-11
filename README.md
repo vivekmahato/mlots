@@ -1,4 +1,4 @@
-# Machine Learning Over Time-Series (```MLOTS```)
+# Machine Learning On Time-Series (```MLOTS```)
 
  ![](docs/source/signal.gif)
 

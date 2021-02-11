@@ -15,10 +15,12 @@ Installation
 ------------
 
 Install mlots by running:
+::
 
    pip install mlots
 
 After installation, it can be imported to a python environment to be employed.
+::
 
    import mlots
 
