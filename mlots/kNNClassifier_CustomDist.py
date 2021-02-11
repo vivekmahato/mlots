@@ -9,7 +9,7 @@ class kNNClassifier_CustomDist(BaseEstimator, ClassifierMixin):
     r"""
     NAME: kNNClassifier_CustomDist
 
-    This is a class that represents Annoy model with MAC/FAC strategy.
+    This is a class that represents kNNClassifier_CustomDist model with MAC/FAC strategy.
 
     Parameters
     ----------
