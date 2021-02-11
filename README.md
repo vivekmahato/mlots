@@ -5,21 +5,19 @@
 ```mlots``` provides Machine Learning tools for Time-Series Classification.
 This package builds on (and hence depends on) ```scikit-learn```, ```numpy```, ```tslearn```, ```annoy```, and ```hnswlib``` libraries.
 
-It can be installed as a python package from the PyPI repository.
+It can be installed as a python package from the [PyPI](https://pypi.org/project/mlots/) repository.
 
 ## Installation
 
-Install mlots by running:
+Install ```mlots``` by running:
 
-  ```python
-  pip install mlots
-  ```
+   <pre><code class="python">pip install mlots
+</code></pre>
 
-After installation, it can be imported to a python environment to be employed.
+After installation, it can be imported to a ```python``` environment to be employed.
 
-   ```python
-   import mlots
-   ```
+   <pre><code class="python">import mlots
+</code></pre>
 
 ## Contribute
 
