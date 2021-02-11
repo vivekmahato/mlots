@@ -1,5 +1,7 @@
 # Machine Learning Over Time-Series (```MLOTS```)
 
+ ![](docs/source/signal.gif)
+
 ```mlots``` provides Machine Learning tools for Time-Series Classification.
 This package builds on (and hence depends on) ```scikit-learn```, ```numpy```, ```tslearn```, ```annoy```, and ```hnswlib``` libraries.
 
