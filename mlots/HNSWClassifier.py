@@ -5,52 +5,53 @@ from tslearn.metrics import dtw
 
 
 class HNSWClassifier(BaseEstimator, ClassifierMixin):
-    """
-       NAME: HNSWClassifier
+    r"""
+    NAME: HNSWClassifier
 
-       This is a class that represents HNSW model from hnswlib combined with MAC/FAC strategy.
+    This is a class that represents HNSW model from hnswlib combined with MAC/FAC strategy.
 
-        Parameters
-        ----------
-        n_neighbors     :   int (default 1)
-                            The n (or k) neighbors to consider for classification.
-        mac_neighbors   :   int (default None)
-                            Number of neighbors to consider for MAC stage.
-                            If None, n_neighbors are used for classification directly.
-                            If int; the classification is in two stages:
-                                MAC stage: mac_neighbors are returned using 'metric'.
-                                FAC stage: n_neighbors are used for classification using DTW.
-        space           :   str (default "l2")
-                            The distance metric to be employed for HNSW.
-                            Check hnswlib library for allowed metrics.
-        max_elements    :   int (default 10)
-                            The maximum number of elements that can be stored in the structure.
-        M               :   int (default 5)
-                            The maximum number of outgoing connections in the graph.
-        ef_construction :   int (default 100)
-                            Controls the tradeoff between construction time and accuracy.
-                            Bigger ef_construction leads to longer construction, but better index quality.
-        ef_Search       :   int (default 50)
-                            The size of the dynamic list for the nearest neighbors in HNSW.
-                            Higher ef leads to more accurate but slower search.
-                            The value ef of can be anything between k and the size of the dataset.
-                            if mac_neighbors = None; k = n_neighbors
-                            if mac_neighbors = int;  k = mac_neighbors
-        metric_params   :   dict() (default None)
-                            The parameters of the metric being employed.
-                            Example: For metric = "dtw", the metric_params can be:
-                                { "global_restraint" : "sakoe_chiba",
-                                  "sakoe_chiba_radius": 1  }
-                            See tslearn.metrics for more details.
-        n_jobs          :   int (default -1)
-                            The number of CPU threads to use. -1 to use all the available threads.
-        random_seed     :   int (default 1992)
-                            The initial seed to be used by random function.
+    Parameters
+    ----------
+    n_neighbors     :   int (default 1)
+                        The n (or k) neighbors to consider for classification.
+    mac_neighbors   :   int (default None)
+                        Number of neighbors to consider for MAC stage.
+                        If None, n_neighbors are used for classification directly.
+                        If int; the classification is in two stages:
+                            MAC stage: mac_neighbors are returned using 'metric'.
+                            FAC stage: n_neighbors are used for classification using DTW.
+    space           :   str (default "l2")
+                        The distance metric to be employed for HNSW.
+                        Check hnswlib library for allowed metrics.
+    max_elements    :   int (default 10)
+                        The maximum number of elements that can be stored in the structure.
+    M               :   int (default 5)
+                        The maximum number of outgoing connections in the graph.
+    ef_construction :   int (default 100)
+                        Controls the tradeoff between construction time and accuracy.
+                        Bigger ef_construction leads to longer construction, but better index quality.
+    ef_Search       :   int (default 50)
+                        The size of the dynamic list for the nearest neighbors in HNSW.
+                        Higher ef leads to more accurate but slower search.
+                        The value ef of can be anything between k and the size of the dataset.
+                        if mac_neighbors = None; k = n_neighbors
+                        if mac_neighbors = int;  k = mac_neighbors
+    metric_params   :   dict() (default None)
+                        The parameters of the metric being employed.
+                        Example: For metric = "dtw", the metric_params can be:
+                            { "global_restraint" : "sakoe_chiba",
+                              "sakoe_chiba_radius": 1  }
+                        See tslearn.metrics for more details.
+    n_jobs          :   int (default -1)
+                        The number of CPU threads to use. -1 to use all the available threads.
+    random_seed     :   int (default 1992)
+                        The initial seed to be used by random function.
 
-        Returns
-        -------
-        object          :   self
-                            HNSWClassifier class with the parameters supplied.
+    Returns
+    -------
+    object          :   self
+                        HNSWClassifier class with the parameters supplied.
+
     """
 
     def __init__(self,
@@ -79,7 +80,7 @@ class HNSWClassifier(BaseEstimator, ClassifierMixin):
         self.random_seed = random_seed
 
     def fit(self, X_train=None, y_train=None):
-        """
+        r"""
         This is the fit function for HNSWClassifier model.
 
         Parameters
@@ -93,6 +94,7 @@ class HNSWClassifier(BaseEstimator, ClassifierMixin):
         -------
         object  :   self
                     HNSWClassifier class with train data fitted.
+
         """
         self.X_train = X_train.astype('float32')
         self.dimension = self.X_train.shape[1]
@@ -108,7 +110,7 @@ class HNSWClassifier(BaseEstimator, ClassifierMixin):
         return self
 
     def predict(self, X_test):
-        """
+        r"""
         This is the predict function for HNSWClassifier model.
 
         Parameters

@@ -7,7 +7,7 @@ class kNNClassifier(BaseEstimator, ClassifierMixin):
     r"""
    NAME: kNNClassifier
 
-   This is a class that represents Annoy model with MAC/FAC strategy.
+   This is a class that represents kNNClassifier model with MAC/FAC strategy.
 
    Parameters
    ----------

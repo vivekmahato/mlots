@@ -5,40 +5,41 @@ from tslearn.metrics import dtw
 
 
 class AnnoyClassifier(BaseEstimator, ClassifierMixin):
-    """
-       NAME: AnnoyClassifier
+    r"""
+    NAME: AnnoyClassifier
 
-       This is a class that represents Annoy model with MAC/FAC strategy.
+    This is a class that represents Annoy model with MAC/FAC strategy.
 
-        Parameters
-        ----------
-        n_neighbors :   int (default 5)
-                        The n (or k) neighbors to consider for classification.
-        mac_neighbors : int (default None)
-                        Number of neighbors to consider for MAC stage.
-                        If None, n_neighbors are used for classification directly.
-                        If int; the classification is in two stages:
-                                MAC stage: mac_neighbors are returned using 'metric'.
-                                FAC stage: n_neighbors are used for classification using DTW.
-        metric:         str (default "euclidean")
-                        The distance metric to be employed for Annoy.
-                        Check annoy library for allowed metrics.
-        metric_params:  dict() (default None)
-                        The parameters of the metric being employed.
-                        Example: For metric = "dtw", the metric_params can be:
-                                { "global_restraint" : "sakoe_chiba",
-                                  "sakoe_chiba_radius": 1  }
-                        See tslearn.metrics for more details.
-        n_trees:        int (default -1)
-                        The number of RPTrees to create for Annoy.
-                        If n_trees=-1, it creates as many RPTs as possible.
-        random_seed:    int (default 1992)
-                        The initial seed to be used by random function.
+    Parameters
+    ----------
+    n_neighbors :   int (default 5)
+                    The n (or k) neighbors to consider for classification.
+    mac_neighbors : int (default None)
+                    Number of neighbors to consider for MAC stage.
+                    If None, n_neighbors are used for classification directly.
+                    If int; the classification is in two stages:
+                            MAC stage: mac_neighbors are returned using 'metric'.
+                            FAC stage: n_neighbors are used for classification using DTW.
+    metric:         str (default "euclidean")
+                    The distance metric to be employed for Annoy.
+                    Check annoy library for allowed metrics.
+    metric_params:  dict() (default None)
+                    The parameters of the metric being employed.
+                    Example: For metric = "dtw", the metric_params can be:
+                            { "global_restraint" : "sakoe_chiba",
+                              "sakoe_chiba_radius": 1  }
+                    See tslearn.metrics for more details.
+    n_trees:        int (default -1)
+                    The number of RPTrees to create for Annoy.
+                    If n_trees=-1, it creates as many RPTs as possible.
+    random_seed:    int (default 1992)
+                    The initial seed to be used by random function.
 
-        Returns
-        -------
-        object:         self
-                        AnnoyClassifier class with the parameters supplied.
+    Returns
+    -------
+    object:         self
+                    AnnoyClassifier class with the parameters supplied.
+
     """
 
     def __init__(self, n_neighbors=5, mac_neighbors=None, metric='euclidean',
@@ -54,7 +55,7 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
         self.random_seed = random_seed
 
     def fit(self, X_train, y_train):
-        """
+        r"""
         This is the fit function for NSW model.
 
         Parameters
@@ -68,6 +69,7 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
         -------
         object:     self
                     AnnoyClassifier class with train data fitted.
+
         """
         self.X_train = X_train
         self.N_feat = X_train.shape[1]
@@ -81,7 +83,7 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
         return self
 
     def predict(self, X_test):
-        """
+        r"""
         This is the predict function for AnnoyClassifier model.
 
         Parameters

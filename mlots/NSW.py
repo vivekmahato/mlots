@@ -13,7 +13,7 @@ class Node:
         self.neighbors = ValueSortedDict()
 
     def __repr__(self):
-        return {'index': self.index, 'label': self.label}
+        return 'index: ' + str(self.index) + ', label:' + str(self.label)
 
     def __str__(self):
         return 'Node(index=' + str(self.index) + ', Label=' + str(self.label) + ')'
@@ -30,35 +30,36 @@ class Node:
 
 
 class NSW(BaseEstimator, ClassifierMixin):
-    """
-      NAME: Navigable Small Worlds
+    r"""
+    NAME: Navigable Small Worlds
 
-      This is a class that represents NSW model.
+    This is a class that represents NSW model.
 
-       Parameters
-       ----------
-       f       :       int (default 1)
+    Parameters
+    ----------
+    f       :       int (default 1)
                        The maximum number of friends a node can have or connect to.
-       m       :       int (default 1)
+    m       :       int (default 1)
                        Number of iterations or search in the network.
-       k       :       int (default 1)
+    k       :       int (default 1)
                        The number of neighbors to consider for classification.
-       metric  :       str (default "euclidean")
+    metric  :       str (default "euclidean")
                        The distance metric/measure to be employed. Can be one from the list: euclidean, dtw, lb_keogh
-       metric_params:  dict() (default None)
+    metric_params:  dict() (default None)
                        The parameters of the metric being employed.
                            Example: For metric = "dtw", the metric_params can be:
                                        {   "global_restraint" : "sakoe_chiba",
                                            "sakoe_chiba_radius": 1             }
                        See tslearn.metrics for more details.
-       random_seed:    int (default 1992)
+    random_seed:    int (default 1992)
                        The initial seed to be used by random function.
 
-       Returns
-       -------
-       object  :       self
+    Returns
+    -------
+    object  :       self
                        NSW class with the parameters supplied.
-       """
+
+    """
 
     def __init__(self,
                  f: int = 1,
@@ -81,9 +82,9 @@ class NSW(BaseEstimator, ClassifierMixin):
     def switch_metric(self, ts1=None, ts2=None):
         if self.metric == "euclidean":
             return np.linalg.norm(ts1 - ts2)
-        elif self.metric == "dtw":
+        if self.metric == "dtw":
             return dtw(ts1, ts2, **self.metric_params)
-        elif self.metric == "lb_keogh":
+        if self.metric == "lb_keogh":
             return lb_keogh(ts1, ts2, **self.metric_params)
         return None
 
@@ -184,7 +185,7 @@ class NSW(BaseEstimator, ClassifierMixin):
         return self.result, count
 
     def fit(self, X_train, y_train, dist_mat=None):
-        """
+        r"""
         This is the fit function for NSW model.
 
         Parameters
@@ -200,6 +201,7 @@ class NSW(BaseEstimator, ClassifierMixin):
         -------
         object  :   self
                     NSW class with train data fitted.
+
         """
         np.random.seed(self.seed)
         try:
@@ -217,7 +219,7 @@ class NSW(BaseEstimator, ClassifierMixin):
 
     def predict(self, X_test, dist_mat=None):
 
-        """
+        r"""
         This is the predict function for NSW model.
 
         Parameters
