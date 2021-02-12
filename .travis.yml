@@ -10,11 +10,18 @@ notifications:
     on_success: [change]
     on_failure: [change]
 
+language:
+  python
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+  
 python:
   - '3.8'
-  -
+
 install:
   - pip install -r requirements.txt
   - pip install pandas
+  - pip install coverage
+  
 script:
-  - python -m unittest discover tests
+  - coverage run -m unittest discover tests
