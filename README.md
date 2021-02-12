@@ -2,6 +2,7 @@
 
  ![](docs/source/signal.gif)  
  [![Build Status](https://travis-ci.com/vivekmahato/mlots.svg?branch=main)](https://travis-ci.com/vivekmahato/mlots)
+ [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ```mlots``` provides Machine Learning tools for Time-Series Classification.
 This package builds on (and hence depends on) ```scikit-learn```, ```numpy```, ```tslearn```, ```annoy```, and ```hnswlib``` libraries.
