@@ -12,6 +12,9 @@ notifications:
 
 python:
   - '3.8'
-
+  -
+install:
+  - pip install -r requirements.txt
+  - pip install pandas
 script:
   - python -m unittest discover tests
