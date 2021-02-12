@@ -4,7 +4,11 @@
  [![Build Status](https://travis-ci.com/vivekmahato/mlots.svg?branch=main)](https://travis-ci.com/vivekmahato/mlots)
  [![codecov](https://codecov.io/gh/vivekmahato/mlots/branch/main/graph/badge.svg?token=YRbBDwzetb)](https://codecov.io/gh/vivekmahato/mlots)
  [![PyPI version fury.io](https://badge.fury.io/py/ansicolortags.svg)](https://pypi.python.org/pypi/mlots/)
- [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![GitHub top language](https://img.shields.io/github/languages/top/vivekmahato/mlots?style=plastic)
+![GitHub last commit](https://img.shields.io/github/last-commit/vivekmahato/mlots?color=red&style=plastic)
+ [![Documentation Status](https://readthedocs.org/projects/mlots/badge/?version=latest)](http://mlots.readthedocs.io/?badge=latest)
+ [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+ <a href="https://twitter.com/mistermahato"><img src="https://img.shields.io/badge/twitter-%231DA1F2.svg?&style=for-the-badge&logo=twitter&logoColor=white" height=25></a>
 
 ```mlots``` provides Machine Learning tools for Time-Series Classification.
 This package builds on (and hence depends on) ```scikit-learn```, ```numpy```, ```tslearn```, ```annoy```, and ```hnswlib``` libraries.
