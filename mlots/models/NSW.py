@@ -71,7 +71,7 @@ class NSW(BaseEstimator, ClassifierMixin):
 
         if metric_params is None:
             metric_params = dict()
-        self.seed = random_seed
+        self.random_seed = random_seed
         self.f = f
         self.m = m
         self.k = k
@@ -203,7 +203,7 @@ class NSW(BaseEstimator, ClassifierMixin):
                     NSW class with train data fitted.
 
         """
-        np.random.seed(self.seed)
+        np.random.seed(self.random_seed)
         try:
             self.X_train = X_train.astype("float32")
         except:
