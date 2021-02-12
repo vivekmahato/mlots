@@ -49,7 +49,6 @@ class TestkNNClassifier_CustomDist(unittest.TestCase):
         model.fit(self.X_train, self.y_train)
         y_hat = model.predict(self.X_test)
         acc = accuracy_score(y_hat, self.y_test)
-        print(acc)
         self.assertEqual(acc, 0.7748344370860927,
                          "kNNClassifier_CustomDist_LB_Keogh_w_MACFAC Failed!")
 

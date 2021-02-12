@@ -14,5 +14,4 @@ python:
   - '3.8'
 
 script:
-  - coverage run -m unittest discover -s tests/ -c -v
-  - coverage report -i
+  - python -m unittest discover tests
