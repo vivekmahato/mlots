@@ -42,7 +42,7 @@ class TestAnnoyClassifier(unittest.TestCase):
 
     def test_conversion_w_split_shuffle(self):
         X_train, X_test, y_train, y_test = from_pandas_dataframe(self.d_frame, target="labels", test_size=0.33,
-                                                                 random_seed=42, shuffle=True)
+                                                                 shuffle=True, random_seed=42)
         np.testing.assert_array_equal(X_train, [[3., 8., 13.], [1., 6., 11.],
                                                 [4., 9., 14.]], "test_conversion_w_split_shuffle failed!")
         np.testing.assert_array_equal(X_test, [[2., 7., 12.], [5., 10., 15.]],
