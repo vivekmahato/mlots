@@ -29,7 +29,7 @@ class Node:
         return self
 
 
-class NSW(BaseEstimator, ClassifierMixin):
+class NSWClassifier(BaseEstimator, ClassifierMixin):
     r"""
     NAME: Navigable Small Worlds
 

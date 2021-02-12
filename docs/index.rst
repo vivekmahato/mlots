@@ -32,7 +32,7 @@ Models
    :caption: Contents:
 
    source/modules.rst
-   source/mlots.models.rst
+   source/mlots.rst
 
 Indices and tables
 ==================

@@ -1,16 +1,40 @@
 mlots package
 =============
 
-Subpackages
------------
-
-.. toctree::
-   :maxdepth: 4
-
-   mlots.models
-
 Submodules
 ----------
+
+mlots.annoy module
+------------------
+
+.. automodule:: mlots.annoy
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+mlots.hnsw module
+-----------------
+
+.. automodule:: mlots.hnsw
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+mlots.knn module
+----------------
+
+.. automodule:: mlots.knn
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+mlots.nsw module
+----------------
+
+.. automodule:: mlots.nsw
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 mlots.utilities module
 ----------------------

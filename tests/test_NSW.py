@@ -4,7 +4,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split, GridSearchCV
 import unittest
 
-from mlots.models import NSW
+from mlots.nsw import NSWClassifier
 
 
 class TestNSW(unittest.TestCase):
@@ -26,7 +26,7 @@ class TestNSW(unittest.TestCase):
             'm': np.arange(1, 10, 2),
             'k': np.arange(1, 6, 2)
         }
-        model = NSW(random_seed=42)
+        model = NSWClassifier(random_seed=42)
         gscv = GridSearchCV(model, param_dict, cv=2,
                             scoring="accuracy", n_jobs=-1)
         gscv.fit(self.X_train, self.y_train)
@@ -34,7 +34,7 @@ class TestNSW(unittest.TestCase):
         assert gscv.best_score_ is not None
 
     def test_NSW_euc(self):
-        nsw = NSW(f=1, k=5, m=9, metric="euclidean",
+        nsw = NSWClassifier(f=1, k=5, m=9, metric="euclidean",
                   random_seed=42)
         nsw.fit(self.X_train, self.y_train)
         y_hat = nsw.predict(self.X_test)
@@ -42,7 +42,7 @@ class TestNSW(unittest.TestCase):
         self.assertEqual(acc, 0.695364238410596, "NSW-EUC Failed!")
 
     def test_NSW_lb_keogh(self):
-        nsw = NSW(f=1, k=5, m=9, metric="lb_keogh",
+        nsw = NSWClassifier(f=1, k=5, m=9, metric="lb_keogh",
                   metric_params={"radius": 23})
         nsw.fit(self.X_train, self.y_train)
         y_hat = nsw.predict(self.X_test)
@@ -50,9 +50,9 @@ class TestNSW(unittest.TestCase):
         self.assertEqual(acc, 0.6887417218543046, "NSW-LB_Keogh Failed!")
 
     def test_NSW_dtw(self):
-        nsw = NSW(f=1, k=5, m=9, metric="dtw",
-                  metric_params={"global_constraint" : "sakoe_chiba",
-                                 "sakoe_chiba_radius": 23})
+        nsw = NSWClassifier(f=1, k=5, m=9, metric="dtw",
+                            metric_params={"global_constraint": "sakoe_chiba",
+                                           "sakoe_chiba_radius": 23})
         nsw.fit(self.X_train, self.y_train)
         y_hat = nsw.predict(self.X_test)
         acc = accuracy_score(y_hat, self.y_test)
