@@ -3,6 +3,7 @@
  ![](docs/source/signal.gif)  
  [![Build Status](https://travis-ci.com/vivekmahato/mlots.svg?branch=main)](https://travis-ci.com/vivekmahato/mlots)
  [![codecov](https://codecov.io/gh/vivekmahato/mlots/branch/main/graph/badge.svg?token=YRbBDwzetb)](https://codecov.io/gh/vivekmahato/mlots)
+ [![PyPI version fury.io](https://badge.fury.io/py/ansicolortags.svg)](https://pypi.python.org/pypi/mlots/)
  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ```mlots``` provides Machine Learning tools for Time-Series Classification.
