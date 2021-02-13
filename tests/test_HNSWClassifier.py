@@ -8,6 +8,7 @@ from mlots.hnsw import HNSWClassifier
 class TestHNSWClassifier(unittest.TestCase):
 
     def setUp(self) -> None:
+        print("Starting a test in TestHNSWClassifier..")
         data = np.load("input/plarge300.npy", allow_pickle=True).item()
         self.X_train, self.X_test, self.y_train, self.y_test = \
             train_test_split(data['X'], data['y'], test_size=0.5,
@@ -20,13 +21,11 @@ class TestHNSWClassifier(unittest.TestCase):
 
     def test_gscv_works(self):
         param_grid = {
-            "n_neighbors": np.arange(1, 11, 2),
-            "mac_neighbors": np.arange(20, 30, 10),
-            "max_elements": np.arange(10, 30, 10),
-            "ef_Search": np.arange(10, 20, 10),
-            "ef_construction": np.arange(100, 201, 50)
+            "n_neighbors": np.arange(1, 3, 1),
+            "mac_neighbors": np.arange(10, 16, 5),
+            "max_elements": np.arange(15, 17, 1),
         }
-        model = HNSWClassifier()
+        model = HNSWClassifier(ef_Search=10)
         gscv = GridSearchCV(model, param_grid, cv=2,
                             scoring="accuracy", n_jobs=-1)
         gscv.fit(self.X_train, self.y_train)

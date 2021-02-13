@@ -9,6 +9,7 @@ from mlots import kNNClassifier_CustomDist
 class TestkNNClassifier_CustomDist(unittest.TestCase):
 
     def setUp(self) -> None:
+        print("Starting a test in TestkNNClassifier_CustomDist..")
         data = np.load("input/plarge300.npy", allow_pickle=True).item()
         self.X_train, self.X_test, self.y_train, self.y_test = \
             train_test_split(data['X'], data['y'], test_size=0.5,
@@ -21,7 +22,7 @@ class TestkNNClassifier_CustomDist(unittest.TestCase):
 
     def test_gscv_works(self):
         param_grid = {
-            "n_neighbors": np.arange(1, 11, 2),
+            "n_neighbors": np.arange(1, 4, 2),
             "weights": ["uniform", "distance"]
         }
         model = kNNClassifier_CustomDist()

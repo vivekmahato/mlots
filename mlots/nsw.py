@@ -86,7 +86,6 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
             return dtw(ts1, ts2, **self.metric_params)
         if self.metric == "lb_keogh":
             return lb_keogh(ts1, ts2, **self.metric_params)
-        return None
 
     def nn_insert(self, index=int, values=[], label=None):
         # create node with the given values

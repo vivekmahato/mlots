@@ -9,7 +9,7 @@ with open(os.path.join(ROOT, 'README.md'), encoding="utf-8") as f:
 
 setuptools.setup(
     name='mlots',
-    version='0.0.4.2',
+    version='0.0.4.3',
     author="Vivek Mahato",
     author_email="vivek.mahato@ucdconnect.ie",
     description="Machine Learning Over Time-Series: A toolkit for time-series analysis",
@@ -19,11 +19,19 @@ setuptools.setup(
     packages=["mlots"],
     install_requires=[
         'tslearn', 'numpy', 'scikit-learn', 'annoy', 'hnswlib', 'sortedcollections',
-        'tqdm'
+        'tqdm', 'pandas'
     ],
     classifiers=[
-        "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "License :: OSI Approved :: BSD 3-Clause License",
         "Operating System :: OS Independent",
     ],
+    project_urls={
+        'Documentation': 'https://mlots.readthedocs.io/',
+        'Source': 'https://github.com/vivekmahato/mlots',
+        'Tracker': 'https://github.com/vivekmahato/mlots/issues',
+    },
 )

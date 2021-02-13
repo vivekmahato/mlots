@@ -7,6 +7,7 @@ from mlots import from_pandas_dataframe
 
 class TestFPD(unittest.TestCase):
     def setUp(self) -> None:
+        print("Starting a test in TestFPD..")
         data = {
             1: [1, 2, 3, 4, 5],
             2: [6, 7, 8, 9, 10],
