@@ -1,8 +1,11 @@
 Machine Learning On Time-Series (MLOTS)
 =======================================
+.. role:: raw-html(raw)
+    :format: html
 
 .. image:: source/signal.gif
 
+:raw-html:`<br />`
 
 .. image:: https://travis-ci.com/vivekmahato/mlots.svg?branch=main
     :target: https://travis-ci.com/vivekmahato/mlots
