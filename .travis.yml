@@ -22,4 +22,4 @@ install:
   - pip install coverage
   
 script:
-  - coverage run --source=. -m unittest discover tests
+  - coverage run -m unittest discover tests
