@@ -7,7 +7,7 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/vivekmahato/mlots?color=red&style=plastic)
  [![Documentation Status](https://readthedocs.org/projects/mlots/badge/?version=latest)](http://mlots.readthedocs.io/?badge=latest)
  [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
- <a href="https://twitter.com/mistermahato"><img src="https://img.shields.io/badge/twitter-%231DA1F2.svg?&style=for-the-badge&logo=twitter&logoColor=white" height=25></a>
+ [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/mistermahato.svg?style=social&label=Follow)](https://twitter.com/mistermahato)
 
 ```mlots``` provides Machine Learning tools for Time-Series Classification.
 This package builds on (and hence depends on) ```scikit-learn```, ```numpy```, ```tslearn```, ```annoy```, and ```hnswlib``` libraries.

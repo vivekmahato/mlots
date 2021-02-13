@@ -3,6 +3,21 @@ Machine Learning On Time-Series (MLOTS)
 
 .. image:: source/signal.gif
 
+
+.. image:: https://travis-ci.com/vivekmahato/mlots.svg?branch=main
+    :target: https://travis-ci.com/vivekmahato/mlots
+.. image:: https://codecov.io/gh/vivekmahato/mlots/branch/main/graph/badge.svg?token=YRbBDwzetb
+    :target: https://codecov.io/gh/vivekmahato/mlots
+.. image:: https://img.shields.io/pypi/pyversions/mlots.svg
+    :target: https://pypi.python.org/pypi/mlots/
+.. image:: https://readthedocs.org/projects/mlots/badge/?version=latest
+    :target: http://mlots.readthedocs.io/?badge=latest
+.. image:: https://readthedocs.org/projects/mlots/badge/?version=latest
+    :target: http://mlots.readthedocs.io/?badge=latest
+.. image:: https://img.shields.io/twitter/url/https/twitter.com/mistermahato.svg?style=social&label=Follow
+    :target: https://twitter.com/mistermahato
+
+
 ``mlots``
 =========
 
