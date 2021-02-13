@@ -5,7 +5,7 @@ import pandas as pd
 from mlots import from_pandas_dataframe
 
 
-class Testfrom_pandas_dataframe(unittest.TestCase):
+class TestFPD(unittest.TestCase):
     def setUp(self) -> None:
         data = {
             1: [1, 2, 3, 4, 5],
