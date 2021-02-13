@@ -3,7 +3,6 @@
  ![](docs/source/signal.gif)  
  [![Build Status](https://travis-ci.com/vivekmahato/mlots.svg?branch=main)](https://travis-ci.com/vivekmahato/mlots)
  [![codecov](https://codecov.io/gh/vivekmahato/mlots/branch/main/graph/badge.svg?token=YRbBDwzetb)](https://codecov.io/gh/vivekmahato/mlots)
-![GitHub top language](https://img.shields.io/github/languages/top/vivekmahato/mlots?style=plastic)
  [![PyPI pyversions](https://img.shields.io/pypi/pyversions/mlots.svg)](https://pypi.python.org/pypi/mlots/)
 ![GitHub last commit](https://img.shields.io/github/last-commit/vivekmahato/mlots?color=red&style=plastic)
  [![Documentation Status](https://readthedocs.org/projects/mlots/badge/?version=latest)](http://mlots.readthedocs.io/?badge=latest)
