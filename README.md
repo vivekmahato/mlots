@@ -4,9 +4,9 @@
  [![Build Status](https://travis-ci.com/vivekmahato/mlots.svg?branch=main)](https://travis-ci.com/vivekmahato/mlots)
  [![codecov](https://codecov.io/gh/vivekmahato/mlots/branch/main/graph/badge.svg?token=YRbBDwzetb)](https://codecov.io/gh/vivekmahato/mlots)
  [![PyPI pyversions](https://img.shields.io/pypi/pyversions/mlots.svg)](https://pypi.python.org/pypi/mlots/)
-![GitHub last commit](https://img.shields.io/github/last-commit/vivekmahato/mlots?color=red&style=plastic)
  [![Documentation Status](https://readthedocs.org/projects/mlots/badge/?version=latest)](http://mlots.readthedocs.io/?badge=latest)
  [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+ ![GitHub last commit](https://img.shields.io/github/last-commit/vivekmahato/mlots?color=red&style=plastic)
  [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/mistermahato.svg?style=social&label=Follow)](https://twitter.com/mistermahato)
 
 ```mlots``` provides Machine Learning tools for Time-Series Classification.
