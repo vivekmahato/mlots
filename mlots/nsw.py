@@ -293,7 +293,7 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
             # counts.append(count)
             neighbors = list(neighbors.keys())[:self.k]
             if return_prediction:
-                lst = self.y_train[neighbors]
+                lst = list(self.y_train[neighbors])
                 y_hat[i] = max(set(lst), key=lst.count)
             nns[i] = np.asarray(neighbors)
         if return_prediction:

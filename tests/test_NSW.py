@@ -11,7 +11,7 @@ class TestNSW(unittest.TestCase):
 
     def setUp(self) -> None:
         print("Starting a test in NSW..")
-        data = np.load("input/plarge300.npy", allow_pickle=True).item()
+        data = np.load("../input/plarge300.npy", allow_pickle=True).item()
         self.X_train, self.X_test, self.y_train, self.y_test = \
             train_test_split(data['X'], data['y'], test_size=0.5,
                              random_state=1992)
@@ -67,6 +67,34 @@ class TestNSW(unittest.TestCase):
         y_hat = nsw.predict(self.X_test)
         acc = accuracy_score(y_hat, self.y_test)
         self.assertEqual(acc, 0.6754966887417219, "NSW-DTW Failed!")
+
+    def test_NSW_kneighbors_v1(self):
+        nsw = NSWClassifier(f=1, k=5, m=9, metric="euclidean",
+                            random_seed=42)
+        nsw.fit(self.X_train, self.y_train)
+        nns, y_hat = nsw.kneighbors(self.X_test, return_prediction=True)
+        acc = accuracy_score(y_hat, self.y_test)
+        np.testing.assert_array_equal(nns[2], [41., 22., 18., 38., 103.], "test_NSW_kneighbors_v1 Failed!")
+        self.assertEqual(acc, 0.695364238410596, "test_NSW_kneighbors_v1 Failed!")
+
+    def test_NSW_kneighbors_v2(self):
+        nsw = NSWClassifier(f=1, k=5, m=9, metric="euclidean",
+                            random_seed=42)
+        nsw.fit(self.X_train, self.y_train)
+        nns = nsw.kneighbors(self.X_test, return_prediction=False)
+        np.testing.assert_array_equal(nns[2], [41., 22., 18., 38., 103.], "test_NSW_kneighbors_v2 Failed!")
+
+    def test_str(self):
+        nsw = NSWClassifier(f=1, k=5, m=9, metric="euclidean",
+                            random_seed=42)
+        nsw.fit(self.X_train, self.y_train)
+        assert str(nsw.corpus[0]) == "Node(index=0, Label=1)"
+
+    def test_repr(self):
+        nsw = NSWClassifier(f=1, k=5, m=9, metric="euclidean",
+                            random_seed=42)
+        nsw.fit(self.X_train, self.y_train)
+        assert repr(nsw.corpus[0]) == "index: 0, label:1"
 
 
 if __name__ == '__main__':
