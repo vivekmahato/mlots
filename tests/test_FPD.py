@@ -51,6 +51,12 @@ class TestFPD(unittest.TestCase):
         np.testing.assert_array_equal(y_train, ['c', 'a', 'd'], "test_conversion_w_split_shuffle failed!")
         np.testing.assert_array_equal(y_test, ['b', 'e'], "test_conversion_w_split_shuffle failed!")
 
+    def test_keyerror(self):
+        with self.assertRaises(KeyError) as raises:
+            from_pandas_dataframe(self.d_frame, target="check", test_size=0.33, shuffle=True,
+                                  random_seed=42)
+            self.assertEqual(raises.exception.message, "KeyError")
+
 
 if __name__ == '__main__':
     unittest.main()

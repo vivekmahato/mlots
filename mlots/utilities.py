@@ -31,11 +31,8 @@ def from_pandas_dataframe(d_frame=None, target=None,
 
     """
     if target is not None:
-        try:
-            y = d_frame[target].values
-            d_frame.drop([target], axis=1, inplace=True)
-        except KeyError as e:
-            sys.exit(str(e))
+        y = d_frame[target].values
+        d_frame.drop([target], axis=1, inplace=True)
     else:
         y = None
 
