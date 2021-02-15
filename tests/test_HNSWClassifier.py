@@ -53,5 +53,5 @@ class TestHNSWClassifier(unittest.TestCase):
                          "HNSWClassifier_w_MACFAC Failed!")
 
 
-if __name__ == '__main__':
-    unittest.main()
+# if __name__ == '__main__':
+#     unittest.main()

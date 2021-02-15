@@ -68,5 +68,5 @@ class TestkNNClassifier_CustomDist(unittest.TestCase):
                          "test_kNNClassifier_CustomDist_CustomMeasure Failed!")
 
 
-if __name__ == '__main__':
-    unittest.main()
+# if __name__ == '__main__':
+#     unittest.main()

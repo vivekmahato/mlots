@@ -59,15 +59,6 @@ class TestNSW(unittest.TestCase):
         acc = accuracy_score(y_hat, self.y_test)
         self.assertEqual(acc, 0.6754966887417219, "NSW-DTW Failed!")
 
-    def test_NSW_dtw(self):
-        nsw = NSWClassifier(f=1, k=5, m=9, metric="dtw",
-                            metric_params={"global_constraint": "sakoe_chiba",
-                                           "sakoe_chiba_radius": 23})
-        nsw.fit(self.X_train, self.y_train)
-        y_hat = nsw.predict(self.X_test)
-        acc = accuracy_score(y_hat, self.y_test)
-        self.assertEqual(acc, 0.6754966887417219, "NSW-DTW Failed!")
-
     def test_NSW_kneighbors_v1(self):
         nsw = NSWClassifier(f=1, k=5, m=9, metric="euclidean",
                             random_seed=42)
@@ -84,6 +75,43 @@ class TestNSW(unittest.TestCase):
         nns = nsw.kneighbors(self.X_test, return_prediction=False)
         np.testing.assert_array_equal(nns[2], [41., 22., 18., 38., 103.], "test_NSW_kneighbors_v2 Failed!")
 
+    def test_NSW_distmat_fitandpredict(self):
+        dist_mat = np.empty((self.X_train.shape[0], self.X_train.shape[0]))
+        for i, ts1 in enumerate(self.X_train):
+            for j, ts2 in enumerate(self.X_train):
+                dist_mat[i][j] = np.linalg.norm(ts1-ts2)
+
+        nsw = NSWClassifier(f=1, k=5, m=9, metric="euclidean", random_seed=42)
+        nsw.fit(self.X_train, self.y_train, dist_mat=dist_mat)
+
+        dist_mat = np.empty((self.X_test.shape[0], self.X_train.shape[0]))
+        for i, ts1 in enumerate(self.X_test):
+            for j, ts2 in enumerate(self.X_train):
+                dist_mat[i][j] = np.linalg.norm(ts1 - ts2)
+
+        y_hat = nsw.predict(self.X_test, dist_mat=dist_mat)
+        acc = accuracy_score(y_hat, self.y_test)
+        self.assertEqual(acc, 0.695364238410596, "test_NSW_distmat_fitandpredict Failed!")
+
+    def test_NSW_distmat_fitandkneighbors(self):
+        dist_mat = np.empty((self.X_train.shape[0], self.X_train.shape[0]))
+        for i, ts1 in enumerate(self.X_train):
+            for j, ts2 in enumerate(self.X_train):
+                dist_mat[i][j] = np.linalg.norm(ts1-ts2)
+
+        nsw = NSWClassifier(f=1, k=5, m=9, metric="euclidean", random_seed=42)
+        nsw.fit(self.X_train, self.y_train, dist_mat=dist_mat)
+
+        dist_mat = np.empty((self.X_test.shape[0], self.X_train.shape[0]))
+        for i, ts1 in enumerate(self.X_test):
+            for j, ts2 in enumerate(self.X_train):
+                dist_mat[i][j] = np.linalg.norm(ts1 - ts2)
+
+        nns, y_hat = nsw.kneighbors(self.X_test, dist_mat=dist_mat, return_prediction=True)
+        acc = accuracy_score(y_hat, self.y_test)
+        np.testing.assert_array_equal(nns[2], [41., 22., 18., 38., 103.], "test_NSW_kneighbors_v1 Failed!")
+        self.assertEqual(acc, 0.695364238410596, "test_NSW_distmat_fitandkneighbors Failed!")
+
     def test_str(self):
         nsw = NSWClassifier(f=1, k=5, m=9, metric="euclidean",
                             random_seed=42)
@@ -97,5 +125,5 @@ class TestNSW(unittest.TestCase):
         assert repr(nsw.corpus[0]) == "index: 0, label:1"
 
 
-if __name__ == '__main__':
-    unittest.main()
+# if __name__ == '__main__':
+#     unittest.main()

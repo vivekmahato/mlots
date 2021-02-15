@@ -215,12 +215,12 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
 
         Parameters
         ----------
-        X_train :   np.array
+        X_train :   ndarray
                     The train data to be fitted.
-        y_train :   np.array
+        y_train :   array
                     The true labels of X_train data.
-        dist_mat :  np.array (default None)
-                    [Optional] Pre-computed distance matrix
+        dist_mat :  ndarray (default None)
+                    [Optional] Pre-computed distance matrix for X_train vs X_train
 
         Returns
         -------
@@ -246,22 +246,23 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
 
         Parameters
         ----------
-        X_test :    np.array
+        X_test :    ndarray
                     The test data for the prediction.
-        dist_mat :  np.array (default None)
-                    [Optional] Pre-computed distance matrix
+        dist_mat :  ndarray (default None)
+                    [Optional] Pre-computed distance matrix for X_test vs X_train
 
         Returns
         -------
-        y_hat :     np.array
+        y_hat :     array
                     The predicted labels of the test samples.
 
         """
         X_test = X_test.astype("float32")
         y_hat = np.empty(X_test.shape[0])
+        self.dmat = dist_mat
 
         for i in tqdm(range(X_test.shape[0])):
-            q_node = Node(0, X_test[i], None)
+            q_node = Node(i, X_test[i], None)
 
             neighbors, _ = self.knn_search(q_node, self.k)
 
@@ -279,20 +280,18 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
 
         Parameters
         ----------
-        X_test :    np.array
+        X_test :    ndarray
                     The test data for the prediction.
-        indices :   list
-                    The indices of the test samples. Relevant if dist_mat is supplied.
-        dist_mat :  np.array (default None)
-                    [Optional] Pre-computed distance matrix
+        dist_mat :  ndarray (default None)
+                    [Optional] Pre-computed distance matrix for X_test vs X_train
         return_prediction: bool (default False)
                     If True, the function returns kneighbors and predictions (nns and y_hat)
 
         Returns
         -------
-        nns     :   np.array
+        nns     :   ndarray
                     The kneighbors of the test samples.
-        y_hat   :   np.array
+        y_hat   :   array
                     The predicted labels of the test samples.
 
         """

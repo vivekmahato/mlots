@@ -57,5 +57,5 @@ class TestFPD(unittest.TestCase):
                                   random_seed=42)
 
 
-if __name__ == '__main__':
-    unittest.main()
+# if __name__ == '__main__':
+#     unittest.main()
