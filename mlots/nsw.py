@@ -80,6 +80,12 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
     random_seed:    int (default 1992)
                        The initial seed to be used by random function.
 
+    Attributes
+    ----------
+    corpus  :       dict()
+                        It stores the all the nodes in the network. The keys are the indices of the nodes and the values
+                        are the node objects of Node class.
+
     Returns
     -------
     object  :       self
