@@ -72,7 +72,7 @@ class kNNClassifier(BaseEstimator, ClassifierMixin):
 
         """
         self.X_train = X_train.astype("float32")
-        self.y_train = y_train
+        self.y_train = np.asarray(y_train)
 
         self.model = KNeighborsTimeSeriesClassifier(n_neighbors=self.n_neighbors,
                                                     metric=self.mac_metric,
@@ -193,8 +193,7 @@ class kNNClassifier_CustomDist(BaseEstimator, ClassifierMixin):
 
         """
         self.X_train = X_train.astype("float32")
-
-        self.y_train = y_train
+        self.y_train = np.asarray(y_train)
 
         self.model = KNeighborsClassifier(n_neighbors=self.n_neighbors,
                                           metric=self.mac_metric,

@@ -75,7 +75,7 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
 
         self.N_feat = X_train.shape[1]
         self.N_train = X_train.shape[0]
-        self.y_train = y_train
+        self.y_train = np.asarray(y_train)
         self.t = annoy.AnnoyIndex(self.N_feat, metric=self.metric)
         self.t.set_seed(self.random_seed)
         for i, v in enumerate(X_train):

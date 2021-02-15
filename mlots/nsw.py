@@ -236,7 +236,7 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
         """
         np.random.seed(self.random_seed)
         self.X_train = X_train.astype("float32")
-        self.y_train = y_train
+        self.y_train = np.asarray(y_train)
         self.dmat = dist_mat
 
         indices = np.arange(len(X_train))

@@ -99,7 +99,7 @@ class HNSWClassifier(BaseEstimator, ClassifierMixin):
         self.X_train = X_train.astype("float32")
         self.dimension = self.X_train.shape[1]
         self.num_elements = self.X_train.shape[0]
-        self.y_train = y_train
+        self.y_train = np.asarray(y_train)
 
         self.model = hnswlib.Index(space=self.space, dim=self.dimension)
         self.model.init_index(max_elements=self.num_elements,

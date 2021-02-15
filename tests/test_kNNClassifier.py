@@ -25,7 +25,11 @@ class TestkNNClassifier(unittest.TestCase):
             "n_neighbors": np.arange(1, 4, 2),
             "mac_neighbors": np.arange(20, 33, 10),
         }
-        model = kNNClassifier()
+        model = kNNClassifier(mac_metric="dtw",
+                              metric_params={
+                                  "global_constraint": "sakoe_chiba",
+                                  "sakoe_chiba_radius": 23
+                              })
         gscv = GridSearchCV(model, param_grid, cv=2,
                             scoring="accuracy", n_jobs=-1)
         gscv.fit(self.X_train, self.y_train)
