@@ -6,6 +6,32 @@ from tslearn.metrics import dtw, lb_keogh
 
 
 class Node:
+    r"""
+    NAME: Node
+
+    This is a class that represents a Node in the NSW network.
+
+    Parameters
+    ----------
+    index       :       int
+                        The index of the Node.
+    values      :       array
+                        The time-series datum.
+    label       :       int or str (default None)
+                        The ground truth class/label of the time-series datum.
+
+    Attributes
+    ----------
+    neighbors   :       ValueSortedDict()
+                        It stores the nodes/neighbors in the network connected to this node. The indices of the nodes
+                        are the keys, and the values are the distances between the two nodes.
+
+    Returns
+    -------
+    object      :       self
+                        Node class with the parametric values supplied.
+
+    """
     def __init__(self, index: int, values: list, label=None):
         self.index = index
         self.values = values
@@ -203,10 +229,7 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
 
         """
         np.random.seed(self.random_seed)
-        try:
-            self.X_train = X_train.astype("float32")
-        except:
-            self.X_train = np.asarray(X_train, dtype="float32")
+        self.X_train = X_train.astype("float32")
         self.y_train = y_train
         self.dmat = dist_mat
 
@@ -234,11 +257,7 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
                     The predicted labels of the test samples.
 
         """
-        try:
-            X_test = X_test.astype("float32")
-        except:
-            X_test = np.asarray(X_test, dtype="float32")
-
+        X_test = X_test.astype("float32")
         y_hat = np.empty(X_test.shape[0])
 
         for i in tqdm(range(X_test.shape[0])):
@@ -277,11 +296,7 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
                     The predicted labels of the test samples.
 
         """
-        try:
-            X_test = X_test.astype("float32")
-        except:
-            X_test = np.asarray(X_test, dtype="float32")
-
+        X_test = X_test.astype("float32")
         self.dmat = dist_mat
         nns = np.empty((X_test.shape[0], self.k))
         y_hat = np.empty(X_test.shape[0])

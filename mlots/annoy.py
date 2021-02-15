@@ -60,9 +60,9 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
 
         Parameters
         ----------
-        X_train :   np.array
+        X_train :   ndarray
                     The train data to be fitted.
-        y_train :   np.array
+        y_train :   array
                     The true labels of X_train data.
 
         Returns
@@ -71,10 +71,7 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
                     AnnoyClassifier class with train data fitted.
 
         """
-        try:
-            self.X_train = X_train.astype("float32")
-        except:
-            self.X_train = np.asarray(X_train, dtype="float32")
+        self.X_train = X_train.astype("float32")
 
         self.N_feat = X_train.shape[1]
         self.N_train = X_train.shape[0]
@@ -92,19 +89,16 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
 
         Parameters
         ----------
-        X_test :    np.array
+        X_test :    ndarray
                     The test data for the prediction.
 
         Returns
         -------
-        y_hat :     np.array
+        y_hat :     array
                     The predicted labels of the test samples.
 
         """
-        try:
-            self.X_test = X_test.astype("float32")
-        except:
-            self.X_test = np.asarray(X_test, dtype="float32")
+        self.X_test = X_test.astype("float32")
 
         if self.mac_neighbors is None:
             return self.predict_mac()

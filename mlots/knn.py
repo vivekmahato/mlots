@@ -71,11 +71,6 @@ class kNNClassifier(BaseEstimator, ClassifierMixin):
                     kNNClassifier class with train data fitted.
 
         """
-        # try:
-        #
-        # except:
-        #     self.X_train = np.asarray(X_train, dtype="float32")
-
         self.X_train = X_train.astype("float32")
         self.y_train = y_train
 
@@ -100,11 +95,6 @@ class kNNClassifier(BaseEstimator, ClassifierMixin):
                     The predicted labels of the test samples.
 
         """
-        # try:
-        #
-        # except:
-        #     self.X_test = np.asarray(X_test, dtype="float32")
-
         self.X_test = X_test.astype("float32")
 
         if self.mac_neighbors is None:
@@ -202,10 +192,7 @@ class kNNClassifier_CustomDist(BaseEstimator, ClassifierMixin):
                     kNNClassifier_CustomDist class with train data fitted.
 
         """
-        try:
-            self.X_train = X_train.astype("float32")
-        except:
-            self.X_train = np.asarray(X_train, dtype="float32")
+        self.X_train = X_train.astype("float32")
 
         self.y_train = y_train
 
@@ -231,10 +218,7 @@ class kNNClassifier_CustomDist(BaseEstimator, ClassifierMixin):
                     The predicted labels of the test samples.
 
         """
-        try:
-            self.X_test = X_test.astype("float32")
-        except:
-            self.X_test = np.asarray(X_test, dtype="float32")
+        self.X_test = X_test.astype("float32")
 
         if self.mac_neighbors is None:
             return self.model.predict(X_test)
