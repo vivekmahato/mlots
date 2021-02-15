@@ -22,9 +22,9 @@ class TestkNNClassifier(unittest.TestCase):
 
     def test_gscv_works(self):
         param_grid = {
-                "n_neighbors": np.arange(1, 4, 2),
-                "mac_neighbors": np.arange(20, 33, 10),
-            }
+            "n_neighbors": np.arange(1, 4, 2),
+            "mac_neighbors": np.arange(20, 33, 10),
+        }
         model = kNNClassifier()
         gscv = GridSearchCV(model, param_grid, cv=2,
                             scoring="accuracy", n_jobs=-1)

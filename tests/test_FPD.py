@@ -55,7 +55,6 @@ class TestFPD(unittest.TestCase):
         with self.assertRaises(KeyError) as raises:
             from_pandas_dataframe(self.d_frame, target="check", test_size=0.33, shuffle=True,
                                   random_seed=42)
-            self.assertEqual(raises.exception.message, "KeyError")
 
 
 if __name__ == '__main__':
