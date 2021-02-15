@@ -15,8 +15,8 @@ Machine Learning On Time-Series (MLOTS)
     :target: https://pypi.python.org/pypi/mlots/
 .. image:: https://readthedocs.org/projects/mlots/badge/?version=latest
     :target: http://mlots.readthedocs.io/?badge=latest
-.. image:: https://readthedocs.org/projects/mlots/badge/?version=latest
-    :target: http://mlots.readthedocs.io/?badge=latest
+.. image:: https://img.shields.io/badge/License-BSD%203--Clause-blue.svg
+    :target: https://opensource.org/licenses/BSD-3-Clause
 .. image:: https://img.shields.io/twitter/url/https/twitter.com/mistermahato.svg?style=social&label=Follow
     :target: https://twitter.com/mistermahato
 
