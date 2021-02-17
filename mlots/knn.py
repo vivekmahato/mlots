@@ -19,7 +19,7 @@ class kNNClassifier(BaseEstimator, ClassifierMixin):
                        Number of neighbors to consider for MAC stage.
                        If None, n_neighbors are used for classification directly.
                        If int; the classification is in two stages:
-                           MAC stage: mac_neighbors are returned using 'metric'.
+                           MAC stage: mac_neighbors are returned using 'mac_metric'.
                            FAC stage: n_neighbors are used for classification using DTW.
    weights         :   str (default "uniform")
                        The weighting scheme of the distances. Options: "uniform" or "distance"
@@ -131,7 +131,7 @@ class kNNClassifier_CustomDist(BaseEstimator, ClassifierMixin):
                         Number of neighbors to consider for MAC stage.
                         If None, n_neighbors are used for classification directly.
                         If int; the classification is in two stages:
-                            MAC stage: mac_neighbors are returned using 'metric'.
+                            MAC stage: mac_neighbors are returned using 'mac_metric'.
                             FAC stage: n_neighbors are used for classification using DTW.
     weights         :   str (default "uniform")
                         The weighting scheme of the distances. Options: "uniform" or "distance"

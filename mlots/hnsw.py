@@ -18,7 +18,7 @@ class HNSWClassifier(BaseEstimator, ClassifierMixin):
                         Number of neighbors to consider for MAC stage.
                         If None, n_neighbors are used for classification directly.
                         If int; the classification is in two stages:
-                            MAC stage: mac_neighbors are returned using 'metric'.
+                            MAC stage: mac_neighbors are returned using HNSW with supplied 'space'.
                             FAC stage: n_neighbors are used for classification using DTW.
     space           :   str (default "l2")
                         The distance metric to be employed for HNSW.
