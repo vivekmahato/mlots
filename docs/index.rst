@@ -47,7 +47,7 @@ Getting Started
 
 .. toctree::
    :titlesonly:
-   :caption: Demo Notebooks
+   :caption: Demo Notebooks:
 
    source/AnnoyClassifier_Demo/AnnoyClassifier_Demo.rst
    source/NSW_Demo/NSWClassifier_Demo.rst
