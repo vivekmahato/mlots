@@ -60,7 +60,7 @@ Models
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: mlots Contents:
 
    source/mlots.rst
 
