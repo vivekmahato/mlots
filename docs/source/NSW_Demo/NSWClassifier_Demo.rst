@@ -120,8 +120,8 @@ Default parameters
     
 
 
-The accuracy of the model is **48%**, which is poorer than random
-guessing.
+The accuracy of the model is **18%**, which is really poor; worse than random
+guessing. This is due to the default parameters which makes NSW network not enough dense.
 
 Model tuning
 ~~~~~~~~~~~~
