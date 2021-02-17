@@ -27,7 +27,7 @@ After installation, it can be imported to a ```python``` environment to be emplo
 </code></pre>
 
 ## Documentation
-The documentation is hosted at [readthedocs](https://mlots.readthedocs.io/). Examples of using ```mlots``` models are present in the ```[Getting Started](https://mlots.readthedocs.io/en/latest/#getting-started)``` section of the documentation.
+The documentation is hosted at [readthedocs](https://mlots.readthedocs.io/). Examples of using ```mlots``` models are present in the [Getting Started](https://mlots.readthedocs.io/en/latest/#getting-started) section of the documentation.
 
 
 ## Contribute
