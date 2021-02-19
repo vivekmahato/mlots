@@ -9,7 +9,7 @@ from mlots.annoy import AnnoyClassifier
 class TestAnnoyClassifier(unittest.TestCase):
     def setUp(self) -> None:
         print("Starting a test in TestAnnoyClassifier..")
-        data = np.load("input/plarge300.npy", allow_pickle=True).item()
+        data = np.load("input/AM_Datasets/plarge300.npy", allow_pickle=True).item()
         self.X_train, self.X_test, self.y_train, self.y_test = \
             train_test_split(data['X'], data['y'], test_size=0.5,
                              random_state=1992)
