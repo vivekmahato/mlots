@@ -38,12 +38,12 @@ Loading Data
 
     name = "SmoothSubspace"
     
-    dataset = arff.loadarff(f'input/{name}/{name}_TRAIN.arff'.format(name=name))[0]
+    dataset = arff.loadarff(f'../input/{name}/{name}_TRAIN.arff'.format(name=name))[0]
     X_train = np.array(dataset.tolist(), dtype=np.float32)
     y_train = X_train[: , -1]
     X_train = X_train[:, :-1]
     
-    dataset = arff.loadarff(f'input/{name}/{name}_TEST.arff'.format(name=name))[0]
+    dataset = arff.loadarff(f'../input/{name}/{name}_TEST.arff'.format(name=name))[0]
     X_test = np.array(dataset.tolist(), dtype=np.float32)
     y_test = X_test[: , -1]
     X_test = X_test[:, :-1]

@@ -39,12 +39,12 @@ Loading Data
 
     name = "PickupGestureWiimoteZ"
     
-    dataset = arff.loadarff(f'input/{name}/{name}_TRAIN.arff'.format(name=name))[0]
+    dataset = arff.loadarff(f'../input/{name}/{name}_TRAIN.arff'.format(name=name))[0]
     X_train = np.array(dataset.tolist(), dtype=np.float32)
     y_train = X_train[: , -1]
     X_train = X_train[:, :-1]
     
-    dataset = arff.loadarff(f'input/{name}/{name}_TEST.arff'.format(name=name))[0]
+    dataset = arff.loadarff(f'../input/{name}/{name}_TEST.arff'.format(name=name))[0]
     X_test = np.array(dataset.tolist(), dtype=np.float32)
     y_test = X_test[: , -1]
     X_test = X_test[:, :-1]
@@ -297,7 +297,7 @@ Comparison
 | The ``matplotlib.pyplot`` is employed for this task. \**\*
 
 .. code:: ipython3
-
+    models = ["Vanilla", "MAC/FAC"]
     fig = plt.figure(figsize=(12,8))
     ax = fig.add_subplot(111)
     ax.bar(models, [acc,acc_mf], color="skyblue", label="Accuracy")

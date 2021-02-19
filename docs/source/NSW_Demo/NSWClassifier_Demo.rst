@@ -38,12 +38,12 @@ Loading Data
 
     name = "SyntheticControl"
     
-    dataset = arff.loadarff(f'input/{name}/{name}_TRAIN.arff'.format(name=name))[0]
+    dataset = arff.loadarff(f'../input/{name}/{name}_TRAIN.arff'.format(name=name))[0]
     X_train = np.array(dataset.tolist(), dtype=np.float32)
     y_train = X_train[: , -1]
     X_train = X_train[:, :-1]
     
-    dataset = arff.loadarff(f'input/{name}/{name}_TEST.arff'.format(name=name))[0]
+    dataset = arff.loadarff(f'../input/{name}/{name}_TEST.arff'.format(name=name))[0]
     X_test = np.array(dataset.tolist(), dtype=np.float32)
     y_test = X_test[: , -1]
     X_test = X_test[:, :-1]
@@ -87,7 +87,7 @@ Default parameters
 
 .. parsed-literal::
 
-    100%|██████████| 300/300 [00:00<00:00, 4088.23it/s]
+    100%|██████████| 300/300 [00:00<00:00, 3787.59it/s]
 
 .. parsed-literal::
 
@@ -108,7 +108,7 @@ Default parameters
 
 .. parsed-literal::
 
-    100%|██████████| 300/300 [00:00<00:00, 3925.39it/s]
+    100%|██████████| 300/300 [00:00<00:00, 4116.06it/s]
 
 .. parsed-literal::
 
@@ -120,8 +120,8 @@ Default parameters
     
 
 
-The accuracy of the model is **18%**, which is really poor; worse than random
-guessing. This is due to the default parameters which makes NSW network not enough dense.
+The accuracy of the model is **48%**, which is poorer than random
+guessing.
 
 Model tuning
 ~~~~~~~~~~~~
@@ -139,7 +139,7 @@ Model tuning
     #Setting up the warping window grid of the DTW measure
     
     dtw_params = []
-    for w_win in range(1,15,2):
+    for w_win in range(11,15,2):
         dtw_params.append(
         {
             "global_constraint": "sakoe_chiba",
@@ -153,12 +153,7 @@ Model tuning
 
 .. parsed-literal::
 
-    [{'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 1},
-     {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 3},
-     {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 5},
-     {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 7},
-     {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 9},
-     {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 11},
+    [{'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 11},
      {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 13}]
 
 
@@ -168,9 +163,9 @@ Model tuning
     #Setting up the param grid for the NSWClassifier model with the DTW params
     
     param_grid = {
-        "f": np.arange(1,50,5),
-        "m": np.arange(1,20,2),
-        "k": np.arange(1,12,2),
+        "f": [1, 5],
+        "m": [17, 19],
+        "k": [1, 3],
         "metric_params" : dtw_params
     }
     param_grid
@@ -180,16 +175,11 @@ Model tuning
 
 .. parsed-literal::
 
-    {'f': array([ 1,  6, 11, 16, 21, 26, 31, 36, 41, 46]),
-     'm': array([ 1,  3,  5,  7,  9, 11, 13, 15, 17, 19]),
-     'k': array([ 1,  3,  5,  7,  9, 11]),
+    {'f': [1, 5],
+     'm': [17, 19],
+     'k': [1, 3],
      'metric_params': [{'global_constraint': 'sakoe_chiba',
-       'sakoe_chiba_radius': 1},
-      {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 3},
-      {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 5},
-      {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 7},
-      {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 9},
-      {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 11},
+       'sakoe_chiba_radius': 11},
       {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 13}]}
 
 
@@ -199,8 +189,23 @@ Model tuning
     #Executing the GridSearchCV over the NSWClassifier model with the supplied param_grid.
     
     model = NSWClassifier(metric="dtw",random_seed=42)
-    gscv = GridSearchCV(model, param_grid=param_grid, cv=10,
+    gscv = GridSearchCV(model, param_grid=param_grid, cv=5,
                         scoring="accuracy", n_jobs=-1).fit(X_train,y_train)
+
+
+.. parsed-literal::
+
+    100%|██████████| 300/300 [00:01<00:00, 156.36it/s]
+
+.. parsed-literal::
+
+    Model is fitted with the provided data.
+
+
+.. parsed-literal::
+
+    
+
 
 .. code:: ipython3
 
@@ -214,8 +219,8 @@ Model tuning
 
 .. parsed-literal::
 
-    Best Parameters:  {'f': 1, 'k': 1, 'm': 17, 'metric_params': {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 11}}
-    Best Accuracy:  0.9133333333333334
+    Best Parameters:  {'f': 1, 'k': 1, 'm': 19, 'metric_params': {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 13}}
+    Best Accuracy:  0.9499999999999998
 
 
 Evaluation of tuned model
@@ -231,6 +236,21 @@ Evaluation of tuned model
 
     model_tuned = NSWClassifier(**best_param,metric="dtw",random_seed=42).fit(X_train,y_train)
 
+
+.. parsed-literal::
+
+    100%|██████████| 300/300 [00:01<00:00, 280.60it/s]
+
+.. parsed-literal::
+
+    Model is fitted with the provided data.
+
+
+.. parsed-literal::
+
+    
+
+
 .. code:: ipython3
 
     y_hat_tuned = model_tuned.predict(X_test)
@@ -240,17 +260,20 @@ Evaluation of tuned model
 
 .. parsed-literal::
 
-    100%|██████████| 300/300 [00:01<00:00, 254.14it/s]
+    100%|██████████| 300/300 [00:01<00:00, 259.52it/s]
 
 .. parsed-literal::
 
-    Model accuracy with tuned parameters:  0.87
+    Model accuracy with tuned parameters:  0.89
 
 
 .. parsed-literal::
 
     
 
+
+By tuning the NSWClassifier model we increased the accuracy from 18% to
+89%.
 
 Comparison
 ----------
@@ -287,6 +310,6 @@ Comparison
 
 
 
-.. image:: output_24_0.png
+.. image:: output_27_0.png
 
 
