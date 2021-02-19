@@ -51,6 +51,10 @@ Loading Data
     #Converting target from bytes to integer
     y_train = [int.from_bytes(el, "little") for el in y_train]
     y_test = [int.from_bytes(el, "little") for el in y_test]
+
+    #Filling NaN/missing values with 0.0
+    X_train = np.nan_to_num(X_train, 0.0)
+    X_test = np.nan_to_num(X_test, 0.0)
     X_train.shape, X_test.shape
 
 
@@ -115,7 +119,7 @@ Model tuning
     #Setting up the warping window grid of the DTW measure
     
     dtw_params = []
-    for w_win in range(5,30,3):
+    for w_win in range(5,10,3):
         dtw_params.append(
         {
             "global_constraint": "sakoe_chiba",
@@ -130,14 +134,7 @@ Model tuning
 .. parsed-literal::
 
     [{'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 5},
-     {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 8},
-     {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 11},
-     {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 14},
-     {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 17},
-     {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 20},
-     {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 23},
-     {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 26},
-     {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 29}]
+     {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 8}]
 
 
 
@@ -146,7 +143,7 @@ Model tuning
     #Setting up the param grid for the kNNClassifier model with the DTW params
     
     param_grid = {
-        "n_neighbors": np.arange(1,12,2),
+        "n_neighbors": np.arange(1,10,2),
         "metric_params" : dtw_params
     }
     param_grid
@@ -156,17 +153,10 @@ Model tuning
 
 .. parsed-literal::
 
-    {'n_neighbors': array([ 1,  3,  5,  7,  9, 11]),
+    {'n_neighbors': array([ 1,  3,  5,  7,  9]),
      'metric_params': [{'global_constraint': 'sakoe_chiba',
        'sakoe_chiba_radius': 5},
-      {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 8},
-      {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 11},
-      {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 14},
-      {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 17},
-      {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 20},
-      {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 23},
-      {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 26},
-      {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 29}]}
+      {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 8}]}
 
 
 

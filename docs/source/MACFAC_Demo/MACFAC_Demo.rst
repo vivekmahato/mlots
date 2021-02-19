@@ -94,7 +94,7 @@ Model tuning
     #Setting up the warping window grid of the DTW measure
     
     dtw_params = []
-    for w_win in range(5,30,3):
+    for w_win in range(5,10,3):
         dtw_params.append(
         {
             "global_constraint": "sakoe_chiba",
@@ -109,14 +109,7 @@ Model tuning
 .. parsed-literal::
 
     [{'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 5},
-     {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 8},
-     {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 11},
-     {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 14},
-     {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 17},
-     {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 20},
-     {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 23},
-     {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 26},
-     {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 29}]
+     {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 8}]
 
 
 
@@ -125,7 +118,7 @@ Model tuning
     #Setting up the param grid for the kNNClassifier model with the DTW params
     
     param_grid = {
-        "n_neighbors": np.arange(1,12,2),
+        "n_neighbors": np.arange(1,10,2),
         "metric_params" : dtw_params
     }
     param_grid
@@ -135,17 +128,11 @@ Model tuning
 
 .. parsed-literal::
 
-    {'n_neighbors': array([ 1,  3,  5,  7,  9, 11]),
+    {'n_neighbors': array([ 1,  3,  5,  7,  9]),
      'metric_params': [{'global_constraint': 'sakoe_chiba',
        'sakoe_chiba_radius': 5},
       {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 8},
-      {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 11},
-      {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 14},
-      {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 17},
-      {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 20},
-      {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 23},
-      {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 26},
-      {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 29}]}
+      {'global_constraint': 'sakoe_chiba', 'sakoe_chiba_radius': 11}]}
 
 
 
@@ -227,10 +214,15 @@ Model tuning
 .. code:: ipython3
 
     param_grid = {
-        "n_neighbors": np.arange(1,12,2),
-        "mac_neighbors": np.arange(20,40,2)
+        "n_neighbors": np.arange(1,6,2),
+        "mac_neighbors": np.arange(20,40,5)
     }
     param_grid
+
+.. parsed-literal::
+
+    {'n_neighbors': array([ 1,  3,  5]),
+     'mac_neighbors': array[20, 25, 30, 35]}
 
 .. code:: ipython3
 
