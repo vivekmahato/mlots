@@ -289,6 +289,7 @@ Comparison
 | The ``matplotlib.pyplot`` is employed for this task. \**\*
 
 .. code:: ipython3
+
     models = ["Vanilla", "MAC/FAC"]
     fig = plt.figure(figsize=(12,8))
     ax = fig.add_subplot(111)
