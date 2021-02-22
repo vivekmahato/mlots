@@ -3,7 +3,6 @@ from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.neighbors import KNeighborsClassifier
 from tslearn.metrics import lb_keogh
 from tslearn.neighbors import KNeighborsTimeSeriesClassifier
-from multiprocessing.pool import ThreadPool
 
 
 class kNNClassifier(BaseEstimator, ClassifierMixin):
@@ -101,26 +100,20 @@ class kNNClassifier(BaseEstimator, ClassifierMixin):
         if self.mac_neighbors is None:
             return self.model.predict(X_test)
 
-        k_neighbors = self.model.kneighbors(self.X_test,
+        y_hat = np.empty(X_test.shape[0])
+        k_neighbors = self.model.kneighbors(X_test,
                                             n_neighbors=self.mac_neighbors,
                                             return_distance=False)
-        try:
-            pool = ThreadPool(processes=self.n_jobs)
-        except ValueError:
-            pool = ThreadPool(processes=None)
-
-        def query_f(k):
-            i = k[0]
-            k = k[1]
+        for idx, k in enumerate(k_neighbors):
             X_train = self.X_train[k]
             y_train = self.y_train[k]
-            self.model = KNeighborsTimeSeriesClassifier(n_neighbors=self.n_neighbors, metric="dtw",
-                                                        weights=self.weights, n_jobs=self.n_jobs,
+            self.model = KNeighborsTimeSeriesClassifier(n_neighbors=self.n_neighbors,
+                                                        metric="dtw",
+                                                        weights=self.weights,
+                                                        n_jobs=self.n_jobs,
                                                         metric_params=self.metric_params).fit(X_train, y_train)
-            return self.model.predict(self.X_test[i])
-
-        y_hat = pool.map(query_f, zip(np.arange(len(k_neighbors)), k_neighbors))
-        pool.close()
+            pred = self.model.predict(X_test[idx])
+            y_hat[idx] = pred
         return y_hat
 
 
@@ -205,7 +198,7 @@ class kNNClassifier_CustomDist(BaseEstimator, ClassifierMixin):
         self.model = KNeighborsClassifier(n_neighbors=self.n_neighbors,
                                           metric=self.mac_metric,
                                           weights=self.weights,
-                                          algorithm="auto",
+                                          algorithm="brute",
                                           n_jobs=self.n_jobs).fit(self.X_train, self.y_train)
         return self
 
@@ -229,24 +222,18 @@ class kNNClassifier_CustomDist(BaseEstimator, ClassifierMixin):
         if self.mac_neighbors is None:
             return self.model.predict(X_test)
 
+        y_hat = np.empty(X_test.shape[0])
         k_neighbors = self.model.kneighbors(X_test,
                                             n_neighbors=self.mac_neighbors,
                                             return_distance=False)
-        try:
-            pool = ThreadPool(processes=self.n_jobs)
-        except ValueError:
-            pool = ThreadPool(processes=None)
-
-        def query_f(k):
-            i = k[0]
-            k = k[1]
+        for idx, k in enumerate(k_neighbors):
             X_train = self.X_train[k]
             y_train = self.y_train[k]
-            model = KNeighborsTimeSeriesClassifier(n_neighbors=self.n_neighbors, metric="dtw",
-                                                   weights=self.weights, n_jobs=self.n_jobs,
-                                                   metric_params=self.metric_params).fit(X_train, y_train)
-            return model.predict(self.X_test[i])
-
-        y_hat = pool.map(query_f, zip(np.arange(len(k_neighbors)), k_neighbors))
-        pool.close()
+            self.model = KNeighborsTimeSeriesClassifier(n_neighbors=self.n_neighbors,
+                                                        metric="dtw",
+                                                        weights=self.weights,
+                                                        n_jobs=self.n_jobs,
+                                                        metric_params=self.metric_params).fit(X_train, y_train)
+            pred = self.model.predict(X_test[idx])
+            y_hat[idx] = pred
         return y_hat

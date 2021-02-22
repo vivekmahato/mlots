@@ -64,21 +64,21 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
     Parameters
     ----------
     f       :       int (default 1)
-                    The maximum number of friends a node can have or connect to.
+                       The maximum number of friends a node can have or connect to.
     m       :       int (default 1)
-                    Number of iterations or search in the network.
+                       Number of iterations or search in the network.
     k       :       int (default 1)
-                    The number of neighbors to consider for classification.
+                       The number of neighbors to consider for classification.
     metric  :       str (default "euclidean")
-                    The distance metric/measure to be employed. Can be one from the list: euclidean, dtw, lb_keogh
+                       The distance metric/measure to be employed. Can be one from the list: euclidean, dtw, lb_keogh
     metric_params:  dict() (default None)
-                    The parameters of the metric being employed.
-                    Example: For metric = "dtw", the metric_params can be:
-                    {"global_restraint" : "sakoe_chiba",
-                    "sakoe_chiba_radius": 1}
-                    See tslearn.metrics for more details.
+                       The parameters of the metric being employed.
+                           Example: For metric = "dtw", the metric_params can be:
+                                       {   "global_restraint" : "sakoe_chiba",
+                                           "sakoe_chiba_radius": 1             }
+                       See tslearn.metrics for more details.
     random_seed:    int (default 1992)
-                    The initial seed to be used by random function.
+                       The initial seed to be used by random function.
 
     Attributes
     ----------
@@ -103,12 +103,12 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
 
         if metric_params is None:
             metric_params = dict()
+        self.random_seed = random_seed
         self.f = f
         self.m = m
         self.k = k
         self.metric = metric
         self.metric_params = metric_params
-        self.random_seed = random_seed
         self.corpus = {}
 
     def switch_metric(self, ts1=None, ts2=None):
@@ -119,10 +119,8 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
         if self.metric == "lb_keogh":
             return lb_keogh(ts1, ts2, **self.metric_params)
 
-    def nn_insert(self, index=int, values=None, label=None):
+    def nn_insert(self, index=int, values=[], label=None):
         # create node with the given values
-        if values is None:
-            values = []
         node = Node(index, values, label)
 
         # check if the corpus is empty
@@ -149,6 +147,7 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
     def batch_insert(self, indices=None):
         for i in tqdm(list(range(self.X_train.shape[0]))):
             self.nn_insert(indices[i], self.X_train[i], self.y_train[i])
+
         return self
 
     def get_closest(self):
@@ -157,11 +156,14 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
 
     def check_stop_condition(self, c, k):
         # if c is further than the kth element in the result
+
         k_dist = self.result[list(self.result.keys())[k - 1]]
         c_dist = list(c.values())[0]
+
         return bool(c_dist > k_dist)
 
     def knn_search(self, q=None, k=1):
+
         self.q = q
         self.visitedset = set()
         self.candidates = ValueSortedDict()

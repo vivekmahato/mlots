@@ -1,6 +1,5 @@
 import annoy
 import numpy as np
-from multiprocessing.pool import ThreadPool
 from sklearn.base import BaseEstimator, ClassifierMixin
 from tslearn.metrics import dtw
 
@@ -33,8 +32,6 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
     n_trees:        int (default -1)
                     The number of RPTrees to create for Annoy.
                     If n_trees=-1, it creates as many RPTs as possible.
-    n_jobs:         int (default -1)
-                    The number of CPU threads to use. -1 to use all the available threads.
     random_seed:    int (default 1992)
                     The initial seed to be used by random function.
 
@@ -46,7 +43,7 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
     """
 
     def __init__(self, n_neighbors=5, mac_neighbors=None, metric='euclidean',
-                 metric_params=None, n_trees=-1, n_jobs=-1, random_seed=1992, ):
+                 metric_params=None, n_trees=-1, random_seed=1992):
 
         if metric_params is None:
             metric_params = dict()
@@ -55,7 +52,6 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
         self.metric = metric
         self.n_trees = n_trees
         self.metric_params = metric_params
-        self.n_jobs = n_jobs
         self.random_seed = random_seed
 
     def fit(self, X_train, y_train):
@@ -84,7 +80,7 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
         self.t.set_seed(self.random_seed)
         for i, v in enumerate(X_train):
             self.t.add_item(i, v)
-        self.t.build(self.n_trees, self.n_jobs)
+        self.t.build(self.n_trees)
         return self
 
     def predict(self, X_test):
@@ -109,45 +105,30 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
         return self.predict_macfac()
 
     def predict_mac(self):
-        try:
-            pool = ThreadPool(processes=self.n_jobs)
-        except ValueError:
-            pool = ThreadPool(processes=None)
+        y_hat = np.empty(self.X_test.shape[0])
+        for i, tv in enumerate(self.X_test):
+            self.curr_nn_inds = self.t.get_nns_by_vector(tv, self.n_neighbors)
+            nn_classes = [self.y_train[nn] for nn in self.curr_nn_inds]
 
-        def query_f(tv):
-            nn = self.t.get_nns_by_vector(tv, self.n_neighbors)
-            nn_classes = self.y_train[nn]
-            return np.bincount(nn_classes).argmax()
-
-        y_hat = pool.map(query_f, self.X_test)
-        pool.close()
-        return np.asarray(y_hat)
+            y_hat[i] = max(set(nn_classes), key=nn_classes.count)
+        return y_hat
 
     def predict_macfac(self):
-        try:
-            pool = ThreadPool(processes=self.n_jobs)
-        except ValueError:
-            pool = ThreadPool(processes=None)
+        y_hat = np.empty(self.X_test.shape[0])
+        for i, tv in enumerate(self.X_test):
+            self.curr_nn_inds = self.t.get_nns_by_vector(tv, self.mac_neighbors)
+            self.nn_dtw(tv)
+            self.curr_nn_inds = self.curr_nn_inds[:self.n_neighbors]
+            nn_classes = [self.y_train[nn] for nn in self.curr_nn_inds]
+            y_hat[i] = max(set(nn_classes), key=nn_classes.count)
+        return y_hat
 
-        def query_f(tv):
-            nns = self.t.get_nns_by_vector(tv, self.mac_neighbors)
-            try:
-                pool2 = ThreadPool(processes=self.n_jobs)
-            except ValueError:
-                pool2 = ThreadPool(processes=None)
-
-            def dtw_dist(nn):
-                tr_v = self.X_train[nn]
-                return dtw(tr_v, tv, **self.metric_params)
-
-            costs = pool2.map(dtw_dist, nns)
-            pool2.close()
-            sorted_cost_inds = np.argsort(costs)
-            nns = np.asarray(nns)[sorted_cost_inds]
-            nns = nns[:self.n_neighbors]
-            nn_classes = [self.y_train[nn] for nn in nns]
-            return max(set(nn_classes), key=nn_classes.count)
-
-        y_hat = pool.map(query_f, self.X_test)
-        pool.close()
-        return np.asarray(y_hat)
+    def nn_dtw(self, tv):
+        costs = np.empty(self.mac_neighbors)
+        for i, nn in enumerate(self.curr_nn_inds):
+            tr_v = self.X_train[nn]
+            cost = dtw(tr_v, tv, **self.metric_params)
+            costs[i] = cost
+        sorted_cost_inds = np.argsort(costs)
+        self.curr_nn_inds = np.asarray(self.curr_nn_inds)[sorted_cost_inds]
+        self.curr_nn_inds = self.curr_nn_inds[:self.n_neighbors]
