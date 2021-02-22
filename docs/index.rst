@@ -75,13 +75,14 @@ Indices and tables
 Contribute
 ----------
 
-- Issue Tracker: https://github.com/vivekmahato/mlots/issues
-- Source Code: https://github.com/vivekmahato/mlots
+Source Code: https://github.com/vivekmahato/mlots
 
 Support
 -------
 
-If you are having issues, please let us know.
+| If you are having issues, please let us know.
+|
+| Issue Tracker: https://github.com/vivekmahato/mlots/issues
 
 License
 -------
