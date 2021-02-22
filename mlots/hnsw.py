@@ -2,6 +2,7 @@ import hnswlib
 import numpy as np
 from sklearn.base import BaseEstimator, ClassifierMixin
 from tslearn.metrics import dtw
+from multiprocessing.pool import ThreadPool
 
 
 class HNSWClassifier(BaseEstimator, ClassifierMixin):
@@ -132,37 +133,58 @@ class HNSWClassifier(BaseEstimator, ClassifierMixin):
         return self.predict_macfac()
 
     def predict_mac(self):
-        self.nbrs_all_query, _ = self.model.knn_query(self.X_test,
-                                                      k=self.n_neighbors)
-        y_hat = np.empty(self.X_test.shape[0])
-        for i, nbrs in enumerate(self.nbrs_all_query):
-            labels = list(self.y_train[nbrs])
-            y_hat[i] = max(set(labels), key=labels.count)
-        return y_hat
+        nbrs_all_query, _ = self.model.knn_query(self.X_test, k=self.n_neighbors)
+        try:
+            pool = ThreadPool(processes=self.n_jobs)
+        except ValueError:
+            pool = ThreadPool(processes=None)
+
+        def query_f(nns):
+            labels = list(self.y_train[nns])
+            return max(set(labels), key=labels.count)
+
+        y_hat = pool.map(query_f, nbrs_all_query)
+        pool.close()
+        return np.asarray(y_hat)
 
     def predict_macfac(self):
+        try:
+            pool = ThreadPool(processes=self.n_jobs)
+            pool2 = ThreadPool(processes=self.n_jobs)
+        except ValueError:
+            pool = ThreadPool(processes=None)
+            pool2 = ThreadPool(processes=None)
+
         self.nbrs_all_query, _ = self.model.knn_query(self.X_test,
                                                       k=self.mac_neighbors)
-        self.nn_dtw()
-        y_hat = np.empty(self.X_test.shape[0])
-        for i, nbrs in enumerate(self.nbrs_all_query):
-            nn_classes = [self.y_train[nn] for nn in nbrs]
-            y_hat[i] = max(set(nn_classes), key=nn_classes.count)
-        return y_hat
 
-    def nn_dtw(self):
-        dtw_nbrs_all_query = []
-        for te_idx, nbrs in enumerate(self.nbrs_all_query):
-            costs = np.empty(len(nbrs))
-            for i, nn in enumerate(nbrs):
+        def dtw_nns(nns):
+            try:
+                pool3 = ThreadPool(processes=self.n_jobs)
+            except ValueError:
+                pool3 = ThreadPool(processes=None)
+            i = nns[0]
+            nns = nns[1]
+
+            def dtw_dist(nn):
                 tr_v = self.X_train[nn]
-                te_v = self.X_test[te_idx]
-                cost = dtw(tr_v,
-                           te_v,
-                           **self.metric_params)
-                costs[i] = cost
+                te_v = self.X_test[i]
+                return dtw(tr_v, te_v, **self.metric_params)
+
+            costs = pool3.map(dtw_dist, nns)
+            pool3.close()
             sorted_cost_inds = np.argsort(costs)
-            nbrs = np.asarray(nbrs)[sorted_cost_inds]
-            nbrs = nbrs[:self.n_neighbors]
-            dtw_nbrs_all_query.append(nbrs)
-        self.nbrs_all_query = dtw_nbrs_all_query
+            nns = np.asarray(nns)[sorted_cost_inds]
+            nns = nns[:self.n_neighbors]
+            return nns
+
+        self.nbrs_all_query = pool2.map(dtw_nns, zip(np.arange(len(self.nbrs_all_query)), self.nbrs_all_query))
+        pool2.close()
+
+        def pred(nns):
+            nn_classes = [self.y_train[nn] for nn in nns]
+            return max(set(nn_classes), key=nn_classes.count)
+
+        y_hat = pool.map(pred, self.nbrs_all_query)
+        pool.close()
+        return np.asarray(y_hat)
