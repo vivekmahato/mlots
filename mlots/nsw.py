@@ -111,7 +111,7 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
         self.metric_params = metric_params
         self.corpus = {}
 
-    def switch_metric(self, ts1=None, ts2=None):
+    def _switch_metric(self, ts1=None, ts2=None):
         if self.metric == "euclidean":
             return np.linalg.norm(ts1 - ts2)
         if self.metric == "dtw":
@@ -119,7 +119,7 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
         if self.metric == "lb_keogh":
             return lb_keogh(ts1, ts2, **self.metric_params)
 
-    def nn_insert(self, index=int, values=[], label=None):
+    def _nn_insert(self, index=int, values=[], label=None):
         # create node with the given values
         node = Node(index, values, label)
 
@@ -128,7 +128,7 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
             self.corpus[node.index] = node
             return self
 
-        neighbors, _ = self.knn_search(node, self.f)
+        neighbors, _ = self._knn_search(node, self.f)
 
         for key, cost in list(neighbors.items())[:self.f]:
             # have the store the updated node back in the corpus
@@ -144,17 +144,17 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
         self.corpus[node.index] = node
         return self
 
-    def batch_insert(self, indices=None):
+    def _batch_insert(self, indices=None):
         for i in tqdm(list(range(self.X_train.shape[0]))):
-            self.nn_insert(indices[i], self.X_train[i], self.y_train[i])
+            self._nn_insert(indices[i], self.X_train[i], self.y_train[i])
 
         return self
 
-    def get_closest(self):
+    def _get_closest(self):
         k = next(iter(self.candidates))
         return {k: self.candidates.pop(k)}
 
-    def check_stop_condition(self, c, k):
+    def _check_stop_condition(self, c, k):
         # if c is further than the kth element in the result
 
         k_dist = self.result[list(self.result.keys())[k - 1]]
@@ -162,7 +162,7 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
 
         return bool(c_dist > k_dist)
 
-    def knn_search(self, q=None, k=1):
+    def _knn_search(self, q=None, k=1):
 
         self.q = q
         self.visitedset = set()
@@ -173,7 +173,7 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
         for i in range(self.m):
             v_ep = self.corpus[np.random.choice(list(self.corpus.keys()))]
             if self.dmat is None:
-                cost = self.switch_metric(self.q.values, v_ep.values)
+                cost = self._switch_metric(self.q.values, v_ep.values)
             else:
                 cost = self.dmat[q.index][v_ep.index]
             count += 1
@@ -186,13 +186,13 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
                 # get element c closest from candidates to q, and remove c
                 # from candidates
                 if len(self.candidates) > 0:
-                    c = self.get_closest()
+                    c = self._get_closest()
                 else:
                     break
 
                 # check stop condition
                 if len(self.result) >= k:
-                    if self.check_stop_condition(c, k):
+                    if self._check_stop_condition(c, k):
                         break
                 tempres.update(c)
 
@@ -202,7 +202,7 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
                 for key in list(c.neighbors.keys()):
                     if key not in self.visitedset:
                         if self.dmat is None:
-                            cost = self.switch_metric(self.q.values, v_ep.values)
+                            cost = self._switch_metric(self.q.values, v_ep.values)
                         else:
                             cost = self.dmat[q.index][v_ep.index]
                         count += 1
@@ -240,7 +240,7 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
         self.dmat = dist_mat
 
         indices = np.arange(len(X_train))
-        self.batch_insert(indices)
+        self._batch_insert(indices)
 
         print("Model is fitted with the provided data.")
         return self
@@ -270,7 +270,7 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
         for i in tqdm(range(X_test.shape[0])):
             q_node = Node(i, X_test[i], None)
 
-            neighbors, _ = self.knn_search(q_node, self.k)
+            neighbors, _ = self._knn_search(q_node, self.k)
 
             labels = [self.corpus[key].label for key in list(neighbors.keys())[:self.k]]
 
@@ -309,7 +309,7 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
 
         for i in tqdm(range(X_test.shape[0])):
             q_node = Node(i, X_test[i], None)
-            neighbors, _ = self.knn_search(q_node, self.k)
+            neighbors, _ = self._knn_search(q_node, self.k)
             # counts.append(count)
             neighbors = list(neighbors.keys())[:self.k]
             if return_prediction:

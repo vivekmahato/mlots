@@ -2,6 +2,7 @@ import annoy
 import numpy as np
 from sklearn.base import BaseEstimator, ClassifierMixin
 from tslearn.metrics import dtw
+import os
 
 
 class AnnoyClassifier(BaseEstimator, ClassifierMixin):
@@ -32,6 +33,8 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
     n_trees:        int (default -1)
                     The number of RPTrees to create for Annoy.
                     If n_trees=-1, it creates as many RPTs as possible.
+    n_jobs:         int (default -1)
+                    The number of CPU threads to use to build Annoy. -1 to use all the available threads.
     random_seed:    int (default 1992)
                     The initial seed to be used by random function.
 
@@ -43,7 +46,7 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
     """
 
     def __init__(self, n_neighbors=5, mac_neighbors=None, metric='euclidean',
-                 metric_params=None, n_trees=-1, random_seed=1992):
+                 metric_params=None, n_trees=-1, n_jobs=-1, random_seed=1992):
 
         if metric_params is None:
             metric_params = dict()
@@ -52,6 +55,9 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
         self.metric = metric
         self.n_trees = n_trees
         self.metric_params = metric_params
+        if n_jobs == -1:
+            n_jobs = os.cpu_count()
+        self.n_jobs = n_jobs
         self.random_seed = random_seed
 
     def fit(self, X_train, y_train):
@@ -80,7 +86,7 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
         self.t.set_seed(self.random_seed)
         for i, v in enumerate(X_train):
             self.t.add_item(i, v)
-        self.t.build(self.n_trees)
+        self.t.build(self.n_trees, n_jobs=self.n_jobs)
         return self
 
     def predict(self, X_test):
@@ -101,10 +107,10 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
         self.X_test = X_test.astype("float32")
 
         if self.mac_neighbors is None:
-            return self.predict_mac()
-        return self.predict_macfac()
+            return self._predict_mac()
+        return self._predict_macfac()
 
-    def predict_mac(self):
+    def _predict_mac(self):
         y_hat = np.empty(self.X_test.shape[0])
         for i, tv in enumerate(self.X_test):
             self.curr_nn_inds = self.t.get_nns_by_vector(tv, self.n_neighbors)
@@ -113,17 +119,17 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
             y_hat[i] = max(set(nn_classes), key=nn_classes.count)
         return y_hat
 
-    def predict_macfac(self):
+    def _predict_macfac(self):
         y_hat = np.empty(self.X_test.shape[0])
         for i, tv in enumerate(self.X_test):
             self.curr_nn_inds = self.t.get_nns_by_vector(tv, self.mac_neighbors)
-            self.nn_dtw(tv)
+            self._nn_dtw(tv)
             self.curr_nn_inds = self.curr_nn_inds[:self.n_neighbors]
             nn_classes = [self.y_train[nn] for nn in self.curr_nn_inds]
             y_hat[i] = max(set(nn_classes), key=nn_classes.count)
         return y_hat
 
-    def nn_dtw(self, tv):
+    def _nn_dtw(self, tv):
         costs = np.empty(self.mac_neighbors)
         for i, nn in enumerate(self.curr_nn_inds):
             tr_v = self.X_train[nn]

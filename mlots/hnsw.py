@@ -128,10 +128,10 @@ class HNSWClassifier(BaseEstimator, ClassifierMixin):
         self.X_test = X_test.astype("float32")
 
         if self.mac_neighbors is None:
-            return self.predict_mac()
-        return self.predict_macfac()
+            return self._predict_mac()
+        return self._predict_macfac()
 
-    def predict_mac(self):
+    def _predict_mac(self):
         self.nbrs_all_query, _ = self.model.knn_query(self.X_test,
                                                       k=self.n_neighbors)
         y_hat = np.empty(self.X_test.shape[0])
@@ -140,17 +140,17 @@ class HNSWClassifier(BaseEstimator, ClassifierMixin):
             y_hat[i] = max(set(labels), key=labels.count)
         return y_hat
 
-    def predict_macfac(self):
+    def _predict_macfac(self):
         self.nbrs_all_query, _ = self.model.knn_query(self.X_test,
                                                       k=self.mac_neighbors)
-        self.nn_dtw()
+        self._nn_dtw()
         y_hat = np.empty(self.X_test.shape[0])
         for i, nbrs in enumerate(self.nbrs_all_query):
             nn_classes = [self.y_train[nn] for nn in nbrs]
             y_hat[i] = max(set(nn_classes), key=nn_classes.count)
         return y_hat
 
-    def nn_dtw(self):
+    def _nn_dtw(self):
         dtw_nbrs_all_query = []
         for te_idx, nbrs in enumerate(self.nbrs_all_query):
             costs = np.empty(len(nbrs))
