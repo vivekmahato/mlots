@@ -1,10 +1,9 @@
 import numpy as np
 from sklearn.model_selection import train_test_split
-import sys
 
 
 def from_pandas_dataframe(d_frame=None, target=None,
-                          test_size=None, shuffle=False, random_seed=1992,):
+                          test_size=None, shuffle=False, random_seed=1992):
     r"""
     NAME: from_pandas_dataframe
 
@@ -44,7 +43,7 @@ def from_pandas_dataframe(d_frame=None, target=None,
         return X, y
 
     if isinstance(test_size, int):
-        test_size = test_size/100
+        test_size = test_size / 100
     if y is None:
         return train_test_split(X, test_size=test_size, random_state=random_seed, shuffle=shuffle)
     return train_test_split(X, y, test_size=test_size, random_state=random_seed, shuffle=shuffle)
