@@ -57,7 +57,7 @@ class ROCKET:
 
 
 @njit("Tuple((float64[:],int32[:],float64[:],int32[:],int32[:]))(int64,int64,int32)")
-def _fit(input_length, num_kernels, random_seed):
+def _fit(input_length, num_kernels, random_seed): # pragma: no cover
     np.random.seed(random_seed)
     candidate_lengths = np.array((7, 9, 11), dtype=np.int32)
     lengths = np.random.choice(candidate_lengths, num_kernels)
@@ -92,7 +92,7 @@ def _fit(input_length, num_kernels, random_seed):
 
 
 @njit(fastmath=True)
-def _apply_kernel(X, weights, length, bias, dilation, padding):
+def _apply_kernel(X, weights, length, bias, dilation, padding): # pragma: no cover
     input_length = len(X)
 
     output_length = (input_length + (2 * padding)) - ((length - 1) * dilation)
@@ -126,7 +126,7 @@ def _apply_kernel(X, weights, length, bias, dilation, padding):
 
 @njit("float64[:,:](float64[:,:],Tuple((float64[::1],int32[:],float64[:],int32[:],int32[:])))",
       parallel=True, fastmath=True)
-def _transform(X, kernels):
+def _transform(X, kernels): # pragma: no cover
     weights, lengths, biases, dilations, paddings = kernels
 
     num_examples, _ = X.shape

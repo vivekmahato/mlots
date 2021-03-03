@@ -65,7 +65,7 @@ class MINIROCKET:
 
 
 @njit("float32[:](float32[:,:],int32[:],int32[:],float32[:],int32)", fastmath=True, parallel=False, cache=True)
-def _fit_biases(X, dilations, num_features_per_dilation, quantiles, random_seed):
+def _fit_biases(X, dilations, num_features_per_dilation, quantiles, random_seed): # pragma: no cover
     np.random.seed(random_seed)
     num_examples, input_length = X.shape
 
@@ -145,7 +145,7 @@ def _fit_biases(X, dilations, num_features_per_dilation, quantiles, random_seed)
     return biases
 
 
-def _fit_dilations(input_length, num_features, max_dilations_per_kernel):
+def _fit_dilations(input_length, num_features, max_dilations_per_kernel): # pragma: no cover
     num_kernels = 84
 
     num_features_per_kernel = num_features // num_kernels
@@ -169,11 +169,11 @@ def _fit_dilations(input_length, num_features, max_dilations_per_kernel):
 
 
 # low-discrepancy sequence to assign quantiles to kernel/dilation combinations
-def _quantiles(n):
+def _quantiles(n): # pragma: no cover
     return np.array([(_ * ((np.sqrt(5) + 1) / 2)) % 1 for _ in range(1, n + 1)], dtype=np.float32)
 
 
-def _fit(X, num_features=10_000, max_dilations_per_kernel=32, random_seed=1992):
+def _fit(X, num_features=10_000, max_dilations_per_kernel=32, random_seed=1992): # pragma: no cover
     _, input_length = X.shape
 
     num_kernels = 84
@@ -191,7 +191,7 @@ def _fit(X, num_features=10_000, max_dilations_per_kernel=32, random_seed=1992):
 
 # _PPV(C, b).mean() returns PPV for vector C (convolution output) and scalar b (bias)
 @vectorize("float32(float32,float32)", nopython=True, cache=True)
-def _ppv(a, b):
+def _ppv(a, b): # pragma: no cover
     if a > b:
         return 1
     else:
@@ -199,7 +199,7 @@ def _ppv(a, b):
 
 
 @njit("float32[:,:](float32[:,:],Tuple((int32[:],int32[:],float32[:])))", fastmath=True, parallel=True, cache=True)
-def _transform(X, parameters):
+def _transform(X, parameters): # pragma: no cover
     num_examples, input_length = X.shape
 
     dilations, num_features_per_dilation, biases = parameters
