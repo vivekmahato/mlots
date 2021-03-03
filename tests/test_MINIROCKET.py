@@ -4,7 +4,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split, GridSearchCV
 
 from mlots import RidgeClassifier, RidgeClassifierCV
-from mlots.transformation.minirocket import MINIROCKET
+from mlots.transformation.minirocket import MINIROCKET, _fit, _transform
 
 
 class TestMINIROCKET(unittest.TestCase):
@@ -41,3 +41,23 @@ class TestMINIROCKET(unittest.TestCase):
         acc = accuracy_score(y_hat, self.y_test)
         self.assertEqual(acc, 0.9271523178807947,
                          "test_MINIROCKETClassification!")
+
+    def test_f(self) -> None:
+        data = np.load("input/AM_Datasets/plarge300.npy", allow_pickle=True).item()
+        X_train, X_test, y_train, y_test = \
+            train_test_split(data['X'], data['y'], test_size=0.5,
+                             random_state=1992)
+        X_train.astype(np.float32)
+        X_train = X_train.reshape((X_train.shape[0], 1, X_train.shape[1]))
+        X_train = X_train[:, 0, :].astype(np.float32)
+
+        X_test.astype(np.float32)
+        X_test = X_test.reshape((X_test.shape[0], 1, X_test.shape[1]))
+        X_test = X_test[:, 0, :].astype(np.float32)
+
+        parameters = _fit(X_train)
+        X_train = _transform(X_train, parameters)
+        X_test = _transform(X_test, parameters)
+
+        np.testing.assert_array_equal(self.X_train, X_train)
+        np.testing.assert_array_equal(self.X_test, X_test)

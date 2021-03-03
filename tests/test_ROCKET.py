@@ -4,7 +4,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split, GridSearchCV
 
 from mlots import RidgeClassifier, RidgeClassifierCV
-from mlots.transformation.rocket import ROCKET
+from mlots.transformation.rocket import ROCKET, _fit, _transform
 
 
 class TestROCKET(unittest.TestCase):
@@ -41,3 +41,16 @@ class TestROCKET(unittest.TestCase):
         acc = accuracy_score(y_hat, self.y_test)
         self.assertEqual(acc, 0.9006622516556292,
                          "test_ROCKETClassification!")
+
+    def test_f(self):
+        data = np.load("input/AM_Datasets/plarge300.npy", allow_pickle=True).item()
+        X_train, X_test, y_train, y_test = \
+            train_test_split(data['X'], data['y'], test_size=0.5,
+                             random_state=1992)
+
+        kernels = _fit(X_train.shape[1], 10000, 1992)
+        X_train = _transform(X_train, kernels)
+        X_test = _transform(X_test, kernels)
+
+        np.testing.assert_array_equal(self.X_train, X_train)
+        np.testing.assert_array_equal(self.X_test, X_test)
