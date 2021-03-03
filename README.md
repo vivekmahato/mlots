@@ -42,3 +42,7 @@ If you are having issues, please let us know.
 ## License
 
 The project is licensed under the BSD 3-Clause license.
+
+## Acknowledgements
+
+We thank Angus Dempster et al. for sharing (open-sourcing) the code for ROCKET and MINIROCKET.

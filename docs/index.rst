@@ -63,6 +63,8 @@ Models
    :caption: mlots Contents:
 
    source/mlots.rst
+   source/mlots.models.rst
+   source/mlots.transformation.rst
 
 Indices and tables
 ==================

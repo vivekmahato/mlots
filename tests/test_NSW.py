@@ -4,7 +4,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split, GridSearchCV
 import unittest
 
-from mlots.nsw import NSWClassifier
+from mlots.models.nsw import NSWClassifier
 
 
 class TestNSW(unittest.TestCase):

@@ -47,3 +47,22 @@ def from_pandas_dataframe(d_frame=None, target=None,
     if y is None:
         return train_test_split(X, test_size=test_size, random_state=random_seed, shuffle=shuffle)
     return train_test_split(X, y, test_size=test_size, random_state=random_seed, shuffle=shuffle)
+
+# def dataframe_repr(X=None):
+#     r"""
+#     NAME: dataframe_repr
+#
+#     This is a utility provided in mlots package. The function helps representing a ndarray into a pandas dataframe.
+#
+#     Parameters
+#     ----------
+#     X               :       ndarray
+#                             The ndarray data to be represented as pandas.DataFrame.
+#     Returns
+#     -------
+#     X_df            :       X represented as a 1-col pandas.DataFrame
+#     """
+#     X_df = pd.DataFrame(columns=["dim0"])
+#     for i, row in enumerate(X):
+#         X_df.at[i, "dim0"] = np.asarray(row, dtype=np.float32)
+#     return X_df
