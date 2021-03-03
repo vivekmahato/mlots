@@ -6,7 +6,7 @@ Importing Packages
 
 .. code:: ipython3
 
-    from mlots import kNNClassifier
+    from mlots.models import kNNClassifier
     from sklearn.model_selection import GridSearchCV
     from scipy.io import arff
     import matplotlib.pyplot as plt

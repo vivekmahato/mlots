@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split, GridSearchCV
 
-from mlots.models.annoy import AnnoyClassifier
+from mlots.models._annoy import AnnoyClassifier
 
 
 class TestAnnoyClassifier(unittest.TestCase):

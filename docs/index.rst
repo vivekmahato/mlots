@@ -53,6 +53,7 @@ Getting Started
    source/NSW_Demo/NSWClassifier_Demo.rst
    source/kNNClassifier_Demo/kNNClassifier_Demo.rst
    source/MACFAC_Demo/MACFAC_Demo.rst
+   source/MINIROCKET_Demo/MINIROCKET_Demo.rst
 
 
 Models

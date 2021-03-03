@@ -3,8 +3,9 @@ import numpy as np
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split, GridSearchCV
 
-from mlots import RidgeClassifier, RidgeClassifierCV
-from mlots.transformation.rocket import ROCKET, _fit, _transform
+from mlots.models import RidgeClassifier, RidgeClassifierCV
+from mlots.transformation import ROCKET
+from mlots.transformation._rocket import _fit, _transform
 
 
 class TestROCKET(unittest.TestCase):

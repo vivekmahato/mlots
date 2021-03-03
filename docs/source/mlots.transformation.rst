@@ -1,18 +1,10 @@
 mlots.transformation package
 ============================
 
-mlots.transformation.MINIROCKET module
---------------------------------------
+Module contents
+---------------
 
-.. automodule:: mlots.transformation.MINIROCKET
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-mlots.transformation.ROCKET module
-----------------------------------
-
-.. automodule:: mlots.transformation.ROCKET
+.. automodule:: mlots.transformation
    :members:
    :undoc-members:
    :show-inheritance:

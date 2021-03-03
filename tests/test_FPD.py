@@ -2,7 +2,7 @@ import unittest
 import numpy as np
 import pandas as pd
 
-from mlots import from_pandas_dataframe
+from mlots.utilities import from_pandas_dataframe
 
 
 class TestFPD(unittest.TestCase):

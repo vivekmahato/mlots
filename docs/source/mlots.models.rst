@@ -1,35 +1,10 @@
 mlots.models package
 ====================
 
-mlots.models.annoy module
--------------------------
+Module contents
+---------------
 
-.. automodule:: mlots.models.annoy
+.. automodule:: mlots.models
    :members:
    :undoc-members:
    :show-inheritance:
-
-mlots.models.hnsw module
-------------------------
-
-.. automodule:: mlots.models.hnsw
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-mlots.models.knn module
------------------------
-
-.. automodule:: mlots.models.knn
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-mlots.models.nsw module
------------------------
-
-.. automodule:: mlots.models.nsw
-   :members:
-   :undoc-members:
-   :show-inheritance:
-

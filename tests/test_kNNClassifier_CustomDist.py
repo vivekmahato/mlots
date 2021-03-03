@@ -3,7 +3,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split, GridSearchCV
 import unittest
 
-from mlots import kNNClassifier_CustomDist
+from mlots.models import kNNClassifier_CustomDist
 
 
 class TestkNNClassifier_CustomDist(unittest.TestCase):

@@ -1,8 +1,7 @@
-from .annoy import AnnoyClassifier
-from .hnsw import HNSWClassifier
-from .knn import kNNClassifier
-from .knn import kNNClassifier_CustomDist
-from .nsw import NSWClassifier
+from mlots.models._annoy import AnnoyClassifier
+from mlots.models._hnsw import HNSWClassifier
+from mlots.models._knn import kNNClassifier, kNNClassifier_CustomDist
+from mlots.models._nsw import NSWClassifier
 from sklearn.linear_model import RidgeClassifier, RidgeClassifierCV
 
 __all__ = [

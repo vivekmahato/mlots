@@ -3,8 +3,9 @@ import numpy as np
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split, GridSearchCV
 
-from mlots import RidgeClassifier, RidgeClassifierCV
-from mlots.transformation.minirocket import MINIROCKET, _fit, _transform
+from mlots.models import RidgeClassifier, RidgeClassifierCV
+from mlots.transformation import MINIROCKET
+from mlots.transformation._minirocket import _fit, _transform
 
 
 class TestMINIROCKET(unittest.TestCase):

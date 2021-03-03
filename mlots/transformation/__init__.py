@@ -1,4 +1,4 @@
-from .minirocket import MINIROCKET
-from .rocket import ROCKET
+from ._minirocket import MINIROCKET
+from ._rocket import ROCKET
 
 __all__ = ["MINIROCKET", "ROCKET"]
