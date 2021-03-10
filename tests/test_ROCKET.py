@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 
 from mlots.models import RidgeClassifier, RidgeClassifierCV
 from mlots.transformation import ROCKET
-from mlots.transformation._rocket import _fit, _transform
+from mlots.transformation._rocket_algos._rocket import _fit, _transform
 
 
 class TestROCKET(unittest.TestCase):

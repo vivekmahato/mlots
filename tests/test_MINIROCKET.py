@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 
 from mlots.models import RidgeClassifier, RidgeClassifierCV
 from mlots.transformation import MINIROCKET
-from mlots.transformation._minirocket import _fit, _transform
+from mlots.transformation._rocket_algos._minirocket import _fit, _transform
 
 
 class TestMINIROCKET(unittest.TestCase):
@@ -48,13 +48,13 @@ class TestMINIROCKET(unittest.TestCase):
         X_train, X_test, y_train, y_test = \
             train_test_split(data['X'], data['y'], test_size=0.5,
                              random_state=1992)
-        X_train.astype(np.float32)
+        X_train = X_train.astype(np.float64)
         X_train = X_train.reshape((X_train.shape[0], 1, X_train.shape[1]))
-        X_train = X_train[:, 0, :].astype(np.float32)
+        X_train = X_train[:, 0, :].astype(np.float64)
 
-        X_test.astype(np.float32)
+        X_test = X_test.astype(np.float64)
         X_test = X_test.reshape((X_test.shape[0], 1, X_test.shape[1]))
-        X_test = X_test[:, 0, :].astype(np.float32)
+        X_test = X_test[:, 0, :].astype(np.float64)
 
         parameters = _fit(X_train)
         X_train = _transform(X_train, parameters)
