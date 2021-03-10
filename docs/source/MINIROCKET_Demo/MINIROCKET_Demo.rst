@@ -76,19 +76,22 @@ Transforming Data using ``MINIROCKET``
 
 .. code:: ipython3
 
-    minirocket = MINIROCKET()
+    #ts_type denotes if we are using univariate or multivariate version of the algorithm
+    #we use "univariate" version as the dataset is a univariate time-series
+    minirocket = MINIROCKET(ts_type="univariate") 
+    
     minirocket.fit(X_train)
     X_train = minirocket.transform(X_train)
     X_test = minirocket.transform(X_test)
 
 .. code:: ipython3
 
-    print("Shape of X_train and X_test before transformation: ",X_train.shape,", ",X_test.shape)
+    print("Shape of X_train and X_test after transformation: ",X_train.shape,", ",X_test.shape)
 
 
 .. parsed-literal::
 
-    Shape of X_train and X_test before transformation:  (150, 9996) ,  (150, 9996)
+    Shape of X_train and X_test after transformation:  (150, 9996) ,  (150, 9996)
 
 
 Classification
