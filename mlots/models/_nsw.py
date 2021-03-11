@@ -31,6 +31,17 @@ class Node:
     object      :       self
                         Node class with the parametric values supplied.
 
+    See Also
+    --------
+    sortedcollections.ValueSortedDict:  The data-structure that stores connected neighbours of a node.
+
+    Examples
+    ________
+    >>> from mlots.models._nsw import Node
+    >>> node = Node(index=1,values=[1,2,3],label=1)
+    >>> print(node)
+    >>> Node(index=1, Label=1)
+
     """
     def __init__(self, index: int, values: list, label=None):
         self.index = index
@@ -72,11 +83,11 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
     metric  :       str (default "euclidean")
                        The distance metric/measure to be employed. Can be one from the list: euclidean, dtw, lb_keogh
     metric_params:  dict() (default None)
-                       The parameters of the metric being employed.
-                           Example: For metric = "dtw", the metric_params can be:
-                                       {   "global_restraint" : "sakoe_chiba",
-                                           "sakoe_chiba_radius": 1             }
-                       See tslearn.metrics for more details.
+                    The parameters of the metric being employed.
+                    -   Example: For metric = "dtw", the metric_params can be:
+                        { "global_restraint" : "sakoe_chiba",
+                        "sakoe_chiba_radius": 1  }
+                    See tslearn.metrics for more details.
     random_seed:    int (default 1992)
                        The initial seed to be used by random function.
 
@@ -91,6 +102,18 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
     object  :       self
                        NSW class with the parameters supplied.
 
+    See Also
+    --------
+    sortedcollections.ValueSortedDict:  The data-structure that stores conencted neighbours of a node in the corpus.
+    tslearn.metrics:                    The underlying library for dtw and lb_keogh distance measures.
+
+    Examples
+    --------
+    >>> from mlots.models import NSWClassifier
+    >>> nsw = NSWClassifier(f=1, k=5, m=9, metric="euclidean")
+    >>> nsw.fit(X_train, y_train)
+    >>> nsw.score(X_test, y_test)
+    >>> 0.7086092715231788
     """
 
     def __init__(self,
@@ -235,7 +258,7 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
 
         """
         np.random.seed(self.random_seed)
-        self.X_train = X_train.astype("float32")
+        self.X_train = X_train.astype("float64")
         self.y_train = np.asarray(y_train)
         self.dmat = dist_mat
 
@@ -263,7 +286,7 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
                     The predicted labels of the test samples.
 
         """
-        X_test = X_test.astype("float32")
+        X_test = X_test.astype("float64")
         y_hat = np.empty(X_test.shape[0])
         self.dmat = dist_mat
 
@@ -299,9 +322,14 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
                     The kneighbors of the test samples.
         y_hat   :   array
                     The predicted labels of the test samples.
-
+        Examples
+        --------
+        >>> from mlots.models import NSWClassifier
+        >>> nsw = NSWClassifier(f=1, k=5, m=9, metric="euclidean")
+        >>> nsw.fit(X_train, y_train)
+        >>> nns, y_hat = nsw.kneighbors(self.X_test, return_prediction=True)
         """
-        X_test = X_test.astype("float32")
+        X_test = X_test.astype("float64")
         self.dmat = dist_mat
         nns = np.empty((X_test.shape[0], self.k))
         y_hat = np.empty(X_test.shape[0])

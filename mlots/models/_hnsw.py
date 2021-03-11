@@ -17,8 +17,10 @@ class HNSWClassifier(BaseEstimator, ClassifierMixin):
     mac_neighbors   :   int (default None)
                         Number of neighbors to consider for MAC stage.
                         If None, n_neighbors are used for classification directly.
+
                         If int; the classification is in two stages:
                             MAC stage: mac_neighbors are returned using HNSW with supplied 'space'.
+
                             FAC stage: n_neighbors are used for classification using DTW.
     space           :   str (default "l2")
                         The distance metric to be employed for HNSW.
@@ -36,11 +38,10 @@ class HNSWClassifier(BaseEstimator, ClassifierMixin):
                         The value ef of can be anything between k and the size of the dataset.
                         if mac_neighbors = None; k = n_neighbors
                         if mac_neighbors = int;  k = mac_neighbors
-    metric_params   :   dict() (default None)
+    metric_params:      dict() (default None)
                         The parameters of the metric being employed.
-                        Example: For metric = "dtw", the metric_params can be:
-                            { "global_restraint" : "sakoe_chiba",
-                              "sakoe_chiba_radius": 1  }
+                        -   Example: For metric = "dtw", the metric_params can be:
+                            { "global_restraint" : "sakoe_chiba", "sakoe_chiba_radius": 1  }
                         See tslearn.metrics for more details.
     n_jobs          :   int (default -1)
                         The number of CPU threads to use. -1 to use all the available threads.
@@ -51,7 +52,18 @@ class HNSWClassifier(BaseEstimator, ClassifierMixin):
     -------
     object          :   self
                         HNSWClassifier class with the parameters supplied.
+    See Also
+    --------
+    hnswlib.Index:          The underlying hnsw module.
+    tslearn.metrics.dtw:    The underlying dtw function.
 
+    Examples
+    --------
+    >>> from mlots.models import HNSWClassifier
+    >>> model = HNSWClassifier(n_neighbors=5, mac_neighbors=30, metric_params={"global_constraint": "sakoe_chiba", "sakoe_chiba_radius": 23})
+    >>> model.fit(X_train, y_train)
+    >>> model.score(X_test, y_test)
+    >>> 0.8344370860927153
     """
 
     def __init__(self,

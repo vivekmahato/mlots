@@ -6,8 +6,7 @@ class MINIROCKET:
     r"""
     NAME: MINIROCKET
 
-    This is a class that represents MINIROCKET by Angus Dempster, Francois Petitjean, Geoff Webb.
-    https://arxiv.org/abs/2012.08791 (preprint)
+    This is a class that represents MINIROCKET by et al [1].
 
     Parameters
     ----------
@@ -15,15 +14,35 @@ class MINIROCKET:
                                 The number of random convolution kernels to be used.
     max_dilations_per_kernel:   int (default 32)
                                 The maximum dilation allowed per kernel.
-    ts_type:                       str (default "univariate")
+    ts_type:                    str (default "univariate")
                                 The type of time-series data; either univariate or multivariate.
     random_seed:                int (default 1992)
                                 The initial seed to be used by random function.
 
     Returns
     -------
-    object:         self
-                    MINIROCKET class with the parameters supplied.
+    object:                     self
+                                MINIROCKET class with the parameters supplied.
+
+    Raises
+    ------
+    ValueError
+        If the ts_type supplied is incompatible, i.e. not univariate or multivariate.
+
+    Examples
+    --------
+    >>> from mlots.transformation import MINIROCKET
+    #ts_type denotes if we are using univariate or multivariate version of the algorithm
+    #depending upon time-series being univariate or multivariate; choose the ts_type accordingly.
+    >>> minirocket = MINIROCKET(ts_type="univariate")
+    >>> minirocket.fit(X_train)
+    >>> X_train_transformed = minirocket.transform(X_train)
+    >>> X_test_transformed = minirocket.transform(X_test)
+
+    Notes
+    -----
+    [1] A. Dempster, D. F. Schmidt, and G. I. Webb. MINIROCKET: A very fast (almost) deterministic transform
+        for time series classification. arXiv:2012.08791, 2020.
     """
     def __init__(self, num_kernels=10_000, max_dilations_per_kernel=32, ts_type="univariate", random_seed=1992):
         self.num_kernels = num_kernels

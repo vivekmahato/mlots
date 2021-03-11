@@ -18,17 +18,19 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
     mac_neighbors : int (default None)
                     Number of neighbors to consider for MAC stage.
                     If None, n_neighbors are used for classification directly.
+
                     If int; the classification is in two stages:
-                            MAC stage: mac_neighbors are returned using 'metric'.
-                            FAC stage: n_neighbors are used for classification using DTW.
+                        MAC stage: mac_neighbors are returned using 'metric'.
+
+                        FAC stage: n_neighbors are used for classification using DTW.
     metric:         str (default "euclidean")
                     The distance metric to be employed for Annoy.
                     Check annoy library for allowed metrics.
     metric_params:  dict() (default None)
                     The parameters of the metric being employed.
-                    Example: For metric = "dtw", the metric_params can be:
-                            { "global_restraint" : "sakoe_chiba",
-                              "sakoe_chiba_radius": 1  }
+                    -   Example: For metric = "dtw", the metric_params can be:
+                        { "global_restraint" : "sakoe_chiba",
+                        "sakoe_chiba_radius": 1  }
                     See tslearn.metrics for more details.
     n_trees:        int (default -1)
                     The number of RPTrees to create for Annoy.
@@ -42,7 +44,18 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
     -------
     object:         self
                     AnnoyClassifier class with the parameters supplied.
+    See Also
+    --------
+    annoy.AnnoyIndex:       The underlying annoy module.
+    tslearn.metrics.dtw:    The underlying dtw function.
 
+    Examples
+    --------
+    >>> from mlots.models import AnnoyClassifier
+    >>> model = AnnoyClassifier(n_neighbors=9, random_seed=42)
+    >>> model.fit(X_train, y_train)
+    >>> model.score(X_test, y_test)
+    >>> 0.7880794701986755
     """
 
     def __init__(self, n_neighbors=5, mac_neighbors=None, metric='euclidean',
