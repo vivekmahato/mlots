@@ -12,11 +12,12 @@
 #
 import os
 import sys
+import sphinx_bootstrap_theme
+
 on_rtd = os.environ.get('READTHEDOCS') == 'True'
 if not on_rtd:
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 rtd_version = os.environ.get('READTHEDOCS_VERSION', 'local')
-import sphinx_bootstrap_theme
 
 # sys.path.insert(0, os.path.abspath('..'))
 
