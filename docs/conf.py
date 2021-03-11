@@ -16,6 +16,8 @@ on_rtd = os.environ.get('READTHEDOCS') == 'True'
 if not on_rtd:
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 rtd_version = os.environ.get('READTHEDOCS_VERSION', 'local')
+import sphinx_bootstrap_theme
+
 # sys.path.insert(0, os.path.abspath('..'))
 
 # -- Project information -----------------------------------------------------
@@ -32,7 +34,7 @@ release = '0.0.7.2'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.napoleon', 'recommonmark', 'sphinx_bootstrap_theme']
+extensions = ['sphinx.ext.napoleon', 'recommonmark']
 
 # Napoleon settings
 napoleon_google_docstring = True
@@ -63,7 +65,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # a list of builtin themes.
 #
 html_theme = 'bootstrap'
-html_theme_path = [os.path.abspath(os.path.dirname(__file__))]
+html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 # (Optional) Logo. Should be small enough to fit the navbar (ideally 24x24).
 # Path should be relative to the ``_static`` files directory.
 # html_logo = "my_logo.png"
