@@ -23,20 +23,15 @@ rtd_version = os.environ.get('READTHEDOCS_VERSION', 'local')
 # sys.path.insert(0, os.path.abspath('..'))
 
 # -- Project information -----------------------------------------------------
+import mlots
 
-project = 'mlots'
-copyright = '2021, Vivek Mahato'
-author = 'Vivek Mahato'
-
+project = mlots.__name__
+copyright = mlots.__copyright__
+author = mlots.__author__
 
 # The full version, including alpha/beta/rc tags
 
-def get_property(prop, project):
-    result = re.search(r'{}\s*=\s*[\'"]([^\'"]*)[\'"]'.format(prop), open(project + '/__init__.py').read())
-    return result.group(1)
-
-
-release = get_property('__version__', project)
+release = mlots.__version__
 
 # -- General configuration ---------------------------------------------------
 
@@ -69,6 +64,8 @@ templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 # -- Options for HTML output -------------------------------------------------
+
+pygments_style = "sphinx"
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
