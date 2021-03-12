@@ -42,25 +42,11 @@ After installation, it can be imported to a ``python`` environment to be employe
 
    import mlots
 
-Getting Started
----------------
-
-.. toctree::
-   :titlesonly:
-   :caption: Demo Notebooks:
-
-   source/AnnoyClassifier_Demo/AnnoyClassifier_Demo.rst
-   source/NSW_Demo/NSWClassifier_Demo.rst
-   source/kNNClassifier_Demo/kNNClassifier_Demo.rst
-   source/MACFAC_Demo/MACFAC_Demo.rst
-   source/MINIROCKET_Demo/MINIROCKET_Demo.rst
-
-
 Models
 --------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: mlots Contents:
 
    source/mlots.rst

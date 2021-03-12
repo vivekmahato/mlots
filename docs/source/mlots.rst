@@ -10,8 +10,6 @@ Subpackages
    mlots.models
    mlots.transformation
 
-Submodules
-----------
 
 mlots.utilities module
 ----------------------
@@ -21,10 +19,3 @@ mlots.utilities module
    :undoc-members:
    :show-inheritance:
 
-Module contents
----------------
-
-.. automodule:: mlots
-   :members:
-   :undoc-members:
-   :show-inheritance:
