@@ -1,6 +1,13 @@
 import os
 
 import setuptools
+import re
+
+
+def get_property(prop, project):
+    result = re.search(r'{}\s*=\s*[\'"]([^\'"]*)[\'"]'.format(prop), open(project + '/__init__.py').read())
+    return result.group(1)
+
 
 ROOT = os.path.abspath(os.path.dirname(__file__))
 
@@ -10,7 +17,7 @@ with open(os.path.join(ROOT, 'README.md'), encoding="utf-8") as f:
 setuptools.setup(
     name='mlots',
     packages=setuptools.find_packages(exclude=["setup.py"]),
-    version='0.0.7.2',
+    version=get_property('__version__', "mlots"),
     author="Vivek Mahato",
     author_email="vivek.mahato@ucdconnect.ie",
     description="Machine Learning Over Time-Series: A toolkit for time-series analysis",

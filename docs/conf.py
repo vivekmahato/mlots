@@ -13,6 +13,7 @@
 import os
 import sys
 import sphinx_bootstrap_theme
+import re
 
 on_rtd = os.environ.get('READTHEDOCS') == 'True'
 if not on_rtd:
@@ -27,8 +28,15 @@ project = 'mlots'
 copyright = '2021, Vivek Mahato'
 author = 'Vivek Mahato'
 
+
 # The full version, including alpha/beta/rc tags
-release = '0.0.7.2'
+
+def get_property(prop, project):
+    result = re.search(r'{}\s*=\s*[\'"]([^\'"]*)[\'"]'.format(prop), open(project + '/__init__.py').read())
+    return result.group(1)
+
+
+release = get_property('__version__', project)
 
 # -- General configuration ---------------------------------------------------
 
