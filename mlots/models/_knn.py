@@ -28,9 +28,10 @@ class kNNClassifier(BaseEstimator, ClassifierMixin):
                        Check tslearn's KNeighborsTimeSeriesClassifier model for allowed metrics.
    metric_params   :   dict() (default None)
                        The parameters of the metric being employed for FAC stage.
+
                        Example: For metric = "dtw", the metric_params can be:
-                           { "global_restraint" : "sakoe_chiba",
-                             "sakoe_chiba_radius": 1  }
+                       { "global_constraint" : "sakoe_chiba", "sakoe_chiba_radius": 1}
+
                        Check tslearn's KNeighborsTimeSeriesClassifier model for allowed metrics.
    n_jobs          :   int (default -1)
                        The number of CPU threads to use. -1 to use all the available threads.
@@ -143,9 +144,10 @@ class kNNClassifier_CustomDist(BaseEstimator, ClassifierMixin):
                         If mac_metric = "lb_keogh", provide "radius" parameter for it in metric_params.
     metric_params   :   dict() (default None)
                         The parameters of the metric being employed for FAC stage.
+
                         Example: For metric = "dtw", the metric_params can be:
-                            { "global_restraint" : "sakoe_chiba",
-                              "sakoe_chiba_radius": 1  }
+                        { "global_constraint" : "sakoe_chiba", "sakoe_chiba_radius": 1  }
+
                         Check tslearn's KNeighborsTimeSeriesClassifier model for allowed metrics.
     n_jobs          :   int (default -1)
                         The number of CPU threads to use. -1 to use all the available threads.

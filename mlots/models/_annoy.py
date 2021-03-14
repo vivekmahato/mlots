@@ -1,8 +1,9 @@
+import os
+
 import annoy
 import numpy as np
 from sklearn.base import BaseEstimator, ClassifierMixin
 from tslearn.metrics import dtw
-import os
 
 
 class AnnoyClassifier(BaseEstimator, ClassifierMixin):
@@ -26,9 +27,10 @@ class AnnoyClassifier(BaseEstimator, ClassifierMixin):
                     Check annoy library for allowed metrics.
     metric_params:  dict() (default None)
                     The parameters of the metric being employed.
+
                     Example: For metric = "dtw", the metric_params can be:
-                            { "global_restraint" : "sakoe_chiba",
-                              "sakoe_chiba_radius": 1  }
+                    { "global_constraint" : "sakoe_chiba", "sakoe_chiba_radius": 1}
+
                     See tslearn.metrics for more details.
     n_trees:        int (default -1)
                     The number of RPTrees to create for Annoy.

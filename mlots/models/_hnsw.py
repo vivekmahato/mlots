@@ -38,9 +38,10 @@ class HNSWClassifier(BaseEstimator, ClassifierMixin):
                         if mac_neighbors = int;  k = mac_neighbors
     metric_params   :   dict() (default None)
                         The parameters of the metric being employed.
+
                         Example: For metric = "dtw", the metric_params can be:
-                            { "global_restraint" : "sakoe_chiba",
-                              "sakoe_chiba_radius": 1  }
+                        { "global_constraint" : "sakoe_chiba", "sakoe_chiba_radius": 1}
+
                         See tslearn.metrics for more details.
     n_jobs          :   int (default -1)
                         The number of CPU threads to use. -1 to use all the available threads.
