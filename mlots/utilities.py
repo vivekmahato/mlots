@@ -27,7 +27,10 @@ def from_pandas_dataframe(d_frame=None, target=None,
     X_train, X_test, y_train, y_test    :       ndarray, ndarray, ndarray, ndarray
                                                 If target is None, only X is returned.
                                                 If test_size is None, no train and test split is performed.
-
+    Examples
+    --------
+    >>> from mlots.utilities import from_pandas_dataframe
+    >>> X_train, X_test, y_train, y_test = from_pandas_dataframe(d_frame, target="labels", test_size=0.33, shuffle=True)
     """
     if target is not None:
         y = d_frame[target].values
