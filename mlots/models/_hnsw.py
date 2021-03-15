@@ -39,10 +39,9 @@ class HNSWClassifier(BaseEstimator, ClassifierMixin):
                         if mac_neighbors = None; k = n_neighbors
                         if mac_neighbors = int;  k = mac_neighbors
     metric_params   :   dict() (default None)
-                        The parameters of the metric being employed.
+                        The parameters of the DTW for FAC stage.
 
-                        -   Example: For metric = "dtw", the metric_params can be:
-                            { "global_constraint" : "sakoe_chiba", "sakoe_chiba_radius": 1}
+                            Example: { "global_constraint" : "sakoe_chiba", "sakoe_chiba_radius": 1}
 
                         See tslearn.metrics for more details.
     n_jobs          :   int (default -1)

@@ -27,14 +27,13 @@ class kNNClassifier(BaseEstimator, ClassifierMixin):
                        The weighting scheme of the distances. Options: "uniform" or "distance"
     mac_metric      :  str (default "euclidean")
                        The distance metric to be employed for MAC stage.
-                       Check tslearn's KNeighborsTimeSeriesClassifier model for allowed metrics.
+                       Check tslearn.neighbors.KNeighborsTimeSeriesClassifier for allowed metrics.
     metric_params   :  dict() (default None)
-                       The parameters of the metric being employed for FAC stage.
+                       The parameters of the DTW for FAC stage.
 
-                       -    Example: For metric = "dtw", the metric_params can be:
-                            { "global_constraint" : "sakoe_chiba", "sakoe_chiba_radius": 1}
+                            Example: { "global_constraint" : "sakoe_chiba", "sakoe_chiba_radius": 1}
 
-                       Check tslearn's KNeighborsTimeSeriesClassifier model for allowed metrics.
+                       See tslearn.metrics for more details.
     n_jobs         :   int (default -1)
                        The number of CPU threads to use. -1 to use all the available threads.
 
@@ -153,17 +152,22 @@ class kNNClassifier_CustomDist(BaseEstimator, ClassifierMixin):
                         The weighting scheme of the distances. Options: "uniform" or "distance"
     mac_metric      :   str (default "lb_keogh")
                         The distance metric to be employed for MAC stage.
-                        Options:    "lb_keogh",
-                                    any allowed distance measures for scikit-learn's KNeighborsClassifier,
-                                    or, a callable distance function.
+
+                        Options:
+
+                            \"lb_keogh\",
+
+                            any allowed distance measures for sklearn.neighbors.KNeighborsClassifier,
+
+                            or, a callable distance function.
+
                         If mac_metric = "lb_keogh", provide "radius" parameter for it in metric_params.
     metric_params   :   dict() (default None)
-                        The parameters of the metric being employed for FAC stage.
+                        The parameters of the DTW for FAC stage.
 
-                        -   Example: For metric = "dtw", the metric_params can be:
-                            { "global_constraint" : "sakoe_chiba", "sakoe_chiba_radius": 1  }
+                            Example: { "global_constraint" : "sakoe_chiba", "sakoe_chiba_radius": 1}
 
-                        Check tslearn's KNeighborsTimeSeriesClassifier model for allowed metrics.
+                        Check tslearn.neighbors.KNeighborsTimeSeriesClassifier model for allowed metrics.
     n_jobs          :   int (default -1)
                         The number of CPU threads to use. -1 to use all the available threads.
 

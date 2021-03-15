@@ -82,10 +82,8 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
                        The distance metric/measure to be employed. Can be one from the list: euclidean, dtw, lb_keogh
     metric_params:  dict() (default None)
                        The parameters of the metric being employed.
-
-                       -    Example: For metric = "dtw", the metric_params can be:
+                       Example: For metric = "dtw", the metric_params can be:
                             {"global_constraint" : "sakoe_chiba", "sakoe_chiba_radius": 1}
-
                        See tslearn.metrics for more details.
     random_seed:    int (default 1992)
                        The initial seed to be used by random function.
