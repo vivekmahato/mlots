@@ -3,7 +3,7 @@ Machine Learning On Time-Series (MLOTS)
 .. role:: raw-html(raw)
     :format: html
 
-.. image:: source/signal.gif
+.. image:: source/images/signal.gif
 
 :raw-html:`<br />`
 

@@ -68,6 +68,10 @@ html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 
 pygments_style = "sphinx"
 
+# (Optional) Logo. Should be small enough to fit the navbar (ideally 24x24).
+# Path should be relative to the ``_static`` files directory.
+html_logo = "source/images/mlots_logo_300x300.png"
+
 # Theme options are theme-specific and customize the look and feel of a
 # theme further.
 html_theme_options = {
