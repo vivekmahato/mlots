@@ -1,4 +1,7 @@
-Machine Learning On Time-Series (MLOTS)
+.. |mlots| image:: source/images/mlots_logo2_300x300.png
+   :width: 80
+
+Machine Learning On Time-Series (|mlots|)
 =======================================
 .. role:: raw-html(raw)
     :format: html
