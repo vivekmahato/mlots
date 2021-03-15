@@ -10,8 +10,6 @@ Subpackages
    mlots.models
    mlots.transformation
 
-Submodules
-----------
 
 mlots.utilities module
 ----------------------

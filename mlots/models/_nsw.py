@@ -30,7 +30,16 @@ class Node:
     -------
     object      :       self
                         Node class with the parametric values supplied.
+    See Also
+    --------
+    sortedcollections.ValueSortedDict:  The data-structure that stores connected neighbours of a node.
 
+    Examples
+    ________
+    >>> from mlots.models._nsw import Node
+    >>> node = Node(index=1,values=[1,2,3],label=1)
+    >>> print(node)
+    >>> Node(index=1, Label=1)
     """
     def __init__(self, index: int, values: list, label=None):
         self.index = index
@@ -74,8 +83,8 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
     metric_params:  dict() (default None)
                        The parameters of the metric being employed.
 
-                       Example: For metric = "dtw", the metric_params can be:
-                       {"global_constraint" : "sakoe_chiba", "sakoe_chiba_radius": 1}
+                       -    Example: For metric = "dtw", the metric_params can be:
+                            {"global_constraint" : "sakoe_chiba", "sakoe_chiba_radius": 1}
 
                        See tslearn.metrics for more details.
     random_seed:    int (default 1992)
@@ -91,7 +100,18 @@ class NSWClassifier(BaseEstimator, ClassifierMixin):
     -------
     object  :       self
                        NSW class with the parameters supplied.
+    See Also
+    --------
+    sortedcollections.ValueSortedDict:  The data-structure that stores conencted neighbours of a node in the corpus.
+    tslearn.metrics:                    The underlying library for dtw and lb_keogh distance measures.
 
+    Examples
+    --------
+    >>> from mlots.models import NSWClassifier
+    >>> nsw = NSWClassifier(f=1, k=5, m=9, metric="euclidean")
+    >>> nsw.fit(X_train, y_train)
+    >>> nsw.score(X_test, y_test)
+    >>> 0.7086092715231788
     """
 
     def __init__(self,

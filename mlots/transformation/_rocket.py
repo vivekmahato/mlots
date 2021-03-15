@@ -1,13 +1,13 @@
-import numpy as np
 from importlib import import_module
+
+import numpy as np
 
 
 class ROCKET:
     r"""
     NAME: ROCKET
 
-    This is a class that represents ROCKET by Angus Dempster, Francois Petitjean, Geoff Webb.
-    https://arxiv.org/abs/1910.13051 (preprint)
+    This is a class that represents ROCKET by Dempster et al. [1].
 
     Parameters
     ----------
@@ -20,6 +20,18 @@ class ROCKET:
     -------
     object:         self
                     ROCKET class with the parameters supplied.
+    Examples
+    --------
+    >>> from mlots.transformation import ROCKET
+    >>> rocket = ROCKET()
+    >>> rocket.fit(X_train)
+    >>> X_train_transformed = rocket.transform(X_train)
+    >>> X_test_transformed = rocket.transform(X_test)
+
+    Notes
+    -----
+    [1] A. Dempster, F. Petitjean, and G. I. Webb. Rocket: Exceptionally fast and accuratetime
+        classification using random convolutional kernels. Data Mining and Knowledge Discovery, 2020.
     """
 
     def __init__(self, num_kernels=10_000, random_seed=1992):

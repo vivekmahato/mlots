@@ -7,40 +7,53 @@ from tslearn.neighbors import KNeighborsTimeSeriesClassifier
 
 class kNNClassifier(BaseEstimator, ClassifierMixin):
     r"""
-   NAME: kNNClassifier
+    NAME: kNNClassifier
 
-   This is a class that represents kNNClassifier model with MAC/FAC strategy.
+    This is a class that represents kNNClassifier model with MAC/FAC strategy.
 
-   Parameters
-   ----------
-   n_neighbors     :   int (default 5)
-                       The n (or k) neighbors to consider for classification.
-   mac_neighbors   :   int (default None)
-                       Number of neighbors to consider for MAC stage.
-                       If None, n_neighbors are used for classification directly.
-                       If int; the classification is in two stages:
-                           MAC stage: mac_neighbors are returned using 'mac_metric'.
-                           FAC stage: n_neighbors are used for classification using DTW.
-   weights         :   str (default "uniform")
+    Parameters
+    ----------
+    n_neighbors     :   int (default 5)
+                        The n (or k) neighbors to consider for classification.
+    mac_neighbors   :   int (default None)
+                        Number of neighbors to consider for MAC stage.
+                        If None, n_neighbors are used for classification directly.
+
+                        If int; the classification is in two stages:
+                            MAC stage: A candidate set of size 'mac_neighbors' are returned using 'mac_metric'.
+
+                            FAC stage: n_neighbors from candidate set are used for classification using DTW.
+    weights         :  str (default "uniform")
                        The weighting scheme of the distances. Options: "uniform" or "distance"
-   mac_metric      :   str (default "euclidean")
+    mac_metric      :  str (default "euclidean")
                        The distance metric to be employed for MAC stage.
                        Check tslearn's KNeighborsTimeSeriesClassifier model for allowed metrics.
-   metric_params   :   dict() (default None)
+    metric_params   :  dict() (default None)
                        The parameters of the metric being employed for FAC stage.
 
-                       Example: For metric = "dtw", the metric_params can be:
-                       { "global_constraint" : "sakoe_chiba", "sakoe_chiba_radius": 1}
+                       -    Example: For metric = "dtw", the metric_params can be:
+                            { "global_constraint" : "sakoe_chiba", "sakoe_chiba_radius": 1}
 
                        Check tslearn's KNeighborsTimeSeriesClassifier model for allowed metrics.
-   n_jobs          :   int (default -1)
+    n_jobs         :   int (default -1)
                        The number of CPU threads to use. -1 to use all the available threads.
 
-   Returns
-   -------
-   object          :   self
+    Returns
+    -------
+    object         :   self
                        kNNClassifier class with the parameters supplied.
+    See Also
+    --------
+    tslearn.neighbors.KNeighborsTimeSeriesClassifier:   The underlying k-NN module for time-series data.
+    tslearn.metrics.dtw:                                The underlying dtw function.
 
+    Examples
+    --------
+    >>> from mlots.models import kNNClassifier
+    >>> model = kNNClassifier(n_neighbors=5)
+    >>> model.fit(X_train, y_train)
+    >>> model.score(X_test, y_test)
+    >>> 0.7814569536423841
     """
 
     def __init__(self, n_neighbors=5, mac_neighbors=None, weights="uniform", mac_metric="euclidean",
@@ -131,9 +144,11 @@ class kNNClassifier_CustomDist(BaseEstimator, ClassifierMixin):
     mac_neighbors   :   int (default None)
                         Number of neighbors to consider for MAC stage.
                         If None, n_neighbors are used for classification directly.
+
                         If int; the classification is in two stages:
-                            MAC stage: mac_neighbors are returned using 'mac_metric'.
-                            FAC stage: n_neighbors are used for classification using DTW.
+                            MAC stage: A candidate set of size 'mac_neighbors' are returned using 'mac_metric'.
+
+                            FAC stage: n_neighbors from candidate set are used for classification using DTW.
     weights         :   str (default "uniform")
                         The weighting scheme of the distances. Options: "uniform" or "distance"
     mac_metric      :   str (default "lb_keogh")
@@ -145,8 +160,8 @@ class kNNClassifier_CustomDist(BaseEstimator, ClassifierMixin):
     metric_params   :   dict() (default None)
                         The parameters of the metric being employed for FAC stage.
 
-                        Example: For metric = "dtw", the metric_params can be:
-                        { "global_constraint" : "sakoe_chiba", "sakoe_chiba_radius": 1  }
+                        -   Example: For metric = "dtw", the metric_params can be:
+                            { "global_constraint" : "sakoe_chiba", "sakoe_chiba_radius": 1  }
 
                         Check tslearn's KNeighborsTimeSeriesClassifier model for allowed metrics.
     n_jobs          :   int (default -1)
@@ -156,7 +171,19 @@ class kNNClassifier_CustomDist(BaseEstimator, ClassifierMixin):
     -------
     object          :   self
                         kNNClassifier_CustomDist class with the parameters supplied.
+    See Also
+    --------
+    sklearn.neighbors.KNeighborsClassifier:             The underlying k-NN module for MAC stage with custom distance measure.
+    tslearn.neighbors.KNeighborsTimeSeriesClassifier:   The underlying k-NN module for FAC stage with dtw.
+    tslearn.metrics.dtw:                                The underlying dtw function.
 
+    Examples
+    --------
+    >>> from mlots.models import kNNClassifier_CustomDist
+    >>> model = kNNClassifier_CustomDist(mac_metric="lb_keogh", mac_neighbors=20, metric_params={"radius": 23})
+    >>> model.fit(X_train, y_train)
+    >>> model.score(X_test, y_test)
+    >>> 0.7748344370860927
     """
     def __init__(self, n_neighbors=5, mac_neighbors=None, weights="uniform", mac_metric="lb_keogh",
                  metric_params=None, n_jobs=-1):
