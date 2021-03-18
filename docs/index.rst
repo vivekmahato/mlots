@@ -80,4 +80,4 @@ Support
 License
 -------
 
-The project is licensed under the BSD 3-Clause license.
+The project is licensed under the `BSD 3-Clause license <https://opensource.org/licenses/BSD-3-Clause>`_.
